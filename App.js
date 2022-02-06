@@ -18,6 +18,7 @@ import TrackPlayer, {
 } from 'react-native-track-player';
 import Icon from 'react-native-vector-icons/AntDesign';
 import SearchItem from './app/components/SearchItem';
+import SearchList from './app/components/SearchList';
 
 async function start(setTrackTitle) {
   const currentTrack = await TrackPlayer.getCurrentTrack();
@@ -63,11 +64,26 @@ async function toggle() {
     TrackPlayer.play();
   }
 }
+async function search(searchText, setSearchItems, searchItems) {
+  let url = 'https://topian.pythonanywhere.com';
+  let response = await fetch(`${url}/search/${searchText}`);
+  let json = await response.json();
+  let titles = json.titles;
+  let artists = json.artists;
+  for (var i = 0; i < titles.length; i++) {
+    let singleSearch = (
+      <SearchItem title={titles[i]} artist={artists[i]} id={i} />
+    );
+    setSearchItems([...searchItems, singleSearch]);
+  }
+  alert(titles.length);
+}
 export default function App() {
   const progress = useProgress();
   const playbackState = usePlaybackState();
-  const [trackTitle, setTrackTitle] = useState('trackObject.title');
+  const [trackTitle, setTrackTitle] = useState('none');
   const [searchItems, setSearchItems] = useState([]);
+  const [searchText, setSearchText] = useState('');
   useTrackPlayerEvents([Event.PlaybackTrackChanged], async event => {
     if (
       event.type === Event.PlaybackTrackChanged &&
@@ -84,16 +100,23 @@ export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.top}>
-        <TextInput
-          style={styles.input}
-          placeholder="Search for a song..."
-          keyboardType="ascii-capable"
-          selectionColor={'white'}
-          placeholderTextColor={'grey'}
-        />
-        {searchItems.map(item => (
-          <SearchItem title={item.title} artist={item.title} />
-        ))}
+        <View style={styles.search}>
+          <TextInput
+            style={styles.input}
+            placeholder="Search for a song..."
+            keyboardType="ascii-capable"
+            selectionColor={'white'}
+            onChangeText={setSearchText}
+            placeholderTextColor={'grey'}
+          />
+          <Icon.Button
+            name="search1"
+            size={30}
+            backgroundColor="transparent"
+            onPress={() => search(searchText, setSearchItems, searchItems)}
+          />
+        </View>
+        <SearchList searchItems={searchItems} />
       </View>
       <View style={styles.musicControls}>
         <Text maxLines={1} style={styles.text}>
@@ -144,6 +167,11 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 10,
     width: '90%',
+    alignItems: 'center',
+  },
+  search: {
+    width: '60%',
+    flexDirection: 'row',
     alignItems: 'center',
   },
   input: {
