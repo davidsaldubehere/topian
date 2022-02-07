@@ -1,11 +1,11 @@
 import React from 'react';
 import {Text, View, StyleSheet} from 'react-native';
 
-const SearchItem = props => {
+const SearchItem = ({artist, title}) => {
   return (
     <View style={styles.searchItem}>
-      <Text style={styles.textBold}>Song: {props.title}</Text>
-      <Text style={styles.text}>Artist: {props.artist}</Text>
+      <Text style={styles.textBold}>Song: {title}</Text>
+      <Text style={styles.text}>Artist: {artist}</Text>
     </View>
   );
 };

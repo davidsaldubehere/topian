@@ -44,12 +44,12 @@ async function start(setTrackTitle) {
   });
   // Add a track to the queue
   await TrackPlayer.add({
-    url: 'https://rr4---sn-1puv-2iae.googlevideo.com/videoplayback?expire=1644021545&ei=yXL9Yd6cMqmA2LYP6L6Z-AQ&ip=67.63.119.182&id=o-AIK5shslFuofYSTXXiwftD5JnpNdzgf1JMY3vAb9VQ6L&itag=251&source=youtube&requiressl=yes&mh=ms&mm=31%2C29&mn=sn-1puv-2iae%2Csn-ab5sznly&ms=au%2Crdu&mv=m&mvi=4&pcm2cms=yes&pl=22&gcr=us&initcwndbps=1428750&vprv=1&mime=audio%2Fwebm&ns=rJ7_da4Ks29Yj4BBo4lo-KUG&gir=yes&clen=3757070&dur=224.601&lmt=1631368289831537&mt=1643999588&fvip=4&keepalive=yes&fexp=24001373%2C24007246&c=WEB&txp=5431432&n=ZMcv2ekMsYVTQyseW&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cgcr%2Cvprv%2Cmime%2Cns%2Cgir%2Cclen%2Cdur%2Clmt&lsparams=mh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpcm2cms%2Cpl%2Cinitcwndbps&lsig=AG3C_xAwRgIhAL--nbFGOxxeLDrI6I1UFenZsvwhussTWYmGXs41rRqVAiEA4dancOnsrF48HlpOlOeuGE97qf-u9CTSdoeAQnlT5lE%3D&sig=AOq0QJ8wRAIgBHrr1zUqVhxMQbw2oSthIsBGUoEiEgH68bb3MQcPq1ECIGmvWyOLwC_ko5ZK1Fth-k0vhJqTMScejI6CBQLX57AB',
+    url: 'https://rr4---sn-1puv-2iae.googlevideo.com/videoplayback?expire=1644213806&ei=zmEAYrLtAsHo8wTzlYGwAQ&ip=67.63.119.182&id=o-AGCCupiekhgeWtU6_7nOLvOhCLI6DZynFoFYhviS8EUi&itag=251&source=youtube&requiressl=yes&mh=ms&mm=31%2C29&mn=sn-1puv-2iae%2Csn-ab5l6n6l&ms=au%2Crdu&mv=m&mvi=4&pl=22&gcr=us&initcwndbps=1332500&vprv=1&mime=audio%2Fwebm&ns=vHPjeqmIMjnBjxiC0yrfWJAG&gir=yes&clen=3757070&dur=224.601&lmt=1631368289831537&mt=1644191820&fvip=4&keepalive=yes&fexp=24001373%2C24007246&c=WEB&txp=5431432&n=oF_TYF12iwuaXWaZg&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cgcr%2Cvprv%2Cmime%2Cns%2Cgir%2Cclen%2Cdur%2Clmt&lsparams=mh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Cinitcwndbps&lsig=AG3C_xAwRAIgDTNSTGpMt3va0L5ka3EN2AVXkIcwV25WIpE5ktroCVMCIG1qqJOvmf89Z7A2XnW9zq6euy6fTJyIvOXHQbmWwOdt&sig=AOq0QJ8wRQIhAMI3SDC1wQ_LOQ_QItTE8MZwMt-0nutdRpKcjiT1h1I7AiA0-Dtku3xTP7D6MAuwV-a17zk23EbCAlvzC5qoBhcwZA==',
     title: 'Track 1',
     artist: 'Track Artist',
   });
   await TrackPlayer.add({
-    url: 'https://rr4---sn-1puv-2iae.googlevideo.com/videoplayback?expire=1644021545&ei=yXL9Yd6cMqmA2LYP6L6Z-AQ&ip=67.63.119.182&id=o-AIK5shslFuofYSTXXiwftD5JnpNdzgf1JMY3vAb9VQ6L&itag=251&source=youtube&requiressl=yes&mh=ms&mm=31%2C29&mn=sn-1puv-2iae%2Csn-ab5sznly&ms=au%2Crdu&mv=m&mvi=4&pcm2cms=yes&pl=22&gcr=us&initcwndbps=1428750&vprv=1&mime=audio%2Fwebm&ns=rJ7_da4Ks29Yj4BBo4lo-KUG&gir=yes&clen=3757070&dur=224.601&lmt=1631368289831537&mt=1643999588&fvip=4&keepalive=yes&fexp=24001373%2C24007246&c=WEB&txp=5431432&n=ZMcv2ekMsYVTQyseW&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cgcr%2Cvprv%2Cmime%2Cns%2Cgir%2Cclen%2Cdur%2Clmt&lsparams=mh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpcm2cms%2Cpl%2Cinitcwndbps&lsig=AG3C_xAwRgIhAL--nbFGOxxeLDrI6I1UFenZsvwhussTWYmGXs41rRqVAiEA4dancOnsrF48HlpOlOeuGE97qf-u9CTSdoeAQnlT5lE%3D&sig=AOq0QJ8wRAIgBHrr1zUqVhxMQbw2oSthIsBGUoEiEgH68bb3MQcPq1ECIGmvWyOLwC_ko5ZK1Fth-k0vhJqTMScejI6CBQLX57AB',
+    url: 'https://rr4---sn-1puv-2iae.googlevideo.com/videoplayback?expire=1644213806&ei=zmEAYrLtAsHo8wTzlYGwAQ&ip=67.63.119.182&id=o-AGCCupiekhgeWtU6_7nOLvOhCLI6DZynFoFYhviS8EUi&itag=251&source=youtube&requiressl=yes&mh=ms&mm=31%2C29&mn=sn-1puv-2iae%2Csn-ab5l6n6l&ms=au%2Crdu&mv=m&mvi=4&pl=22&gcr=us&initcwndbps=1332500&vprv=1&mime=audio%2Fwebm&ns=vHPjeqmIMjnBjxiC0yrfWJAG&gir=yes&clen=3757070&dur=224.601&lmt=1631368289831537&mt=1644191820&fvip=4&keepalive=yes&fexp=24001373%2C24007246&c=WEB&txp=5431432&n=oF_TYF12iwuaXWaZg&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cgcr%2Cvprv%2Cmime%2Cns%2Cgir%2Cclen%2Cdur%2Clmt&lsparams=mh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Cinitcwndbps&lsig=AG3C_xAwRAIgDTNSTGpMt3va0L5ka3EN2AVXkIcwV25WIpE5ktroCVMCIG1qqJOvmf89Z7A2XnW9zq6euy6fTJyIvOXHQbmWwOdt&sig=AOq0QJ8wRQIhAMI3SDC1wQ_LOQ_QItTE8MZwMt-0nutdRpKcjiT1h1I7AiA0-Dtku3xTP7D6MAuwV-a17zk23EbCAlvzC5qoBhcwZA==',
     title: 'Track 2',
     artist: 'Track Artist',
   });
@@ -70,13 +70,16 @@ async function search(searchText, setSearchItems, searchItems) {
   let json = await response.json();
   let titles = json.titles;
   let artists = json.artists;
-  for (var i = 0; i < titles.length; i++) {
-    let singleSearch = (
-      <SearchItem title={titles[i]} artist={artists[i]} id={i} />
-    );
-    setSearchItems([...searchItems, singleSearch]);
-  }
-  alert(titles.length);
+  //no freaking idea why this has to be done this garbo way but it works
+  await setSearchItems([
+    ...searchItems,
+    {title: titles[0], artist: artists[1], id: Math.random() * 1000},
+    {title: titles[1], artist: artists[2], id: Math.random() * 1000},
+    {title: titles[2], artist: artists[2], id: Math.random() * 1000},
+    {title: titles[3], artist: artists[2], id: Math.random() * 1000},
+  ]);
+
+  console.log(titles[3]);
 }
 export default function App() {
   const progress = useProgress();
