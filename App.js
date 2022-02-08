@@ -43,16 +43,16 @@ async function start(setTrackTitle) {
     compactCapabilities: [Capability.Play, Capability.Pause],
   });
   // Add a track to the queue
-  await TrackPlayer.add({
-    url: 'https://rr4---sn-1puv-2iae.googlevideo.com/videoplayback?expire=1644213806&ei=zmEAYrLtAsHo8wTzlYGwAQ&ip=67.63.119.182&id=o-AGCCupiekhgeWtU6_7nOLvOhCLI6DZynFoFYhviS8EUi&itag=251&source=youtube&requiressl=yes&mh=ms&mm=31%2C29&mn=sn-1puv-2iae%2Csn-ab5l6n6l&ms=au%2Crdu&mv=m&mvi=4&pl=22&gcr=us&initcwndbps=1332500&vprv=1&mime=audio%2Fwebm&ns=vHPjeqmIMjnBjxiC0yrfWJAG&gir=yes&clen=3757070&dur=224.601&lmt=1631368289831537&mt=1644191820&fvip=4&keepalive=yes&fexp=24001373%2C24007246&c=WEB&txp=5431432&n=oF_TYF12iwuaXWaZg&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cgcr%2Cvprv%2Cmime%2Cns%2Cgir%2Cclen%2Cdur%2Clmt&lsparams=mh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Cinitcwndbps&lsig=AG3C_xAwRAIgDTNSTGpMt3va0L5ka3EN2AVXkIcwV25WIpE5ktroCVMCIG1qqJOvmf89Z7A2XnW9zq6euy6fTJyIvOXHQbmWwOdt&sig=AOq0QJ8wRQIhAMI3SDC1wQ_LOQ_QItTE8MZwMt-0nutdRpKcjiT1h1I7AiA0-Dtku3xTP7D6MAuwV-a17zk23EbCAlvzC5qoBhcwZA==',
-    title: 'Track 1',
-    artist: 'Track Artist',
-  });
-  await TrackPlayer.add({
-    url: 'https://rr4---sn-1puv-2iae.googlevideo.com/videoplayback?expire=1644213806&ei=zmEAYrLtAsHo8wTzlYGwAQ&ip=67.63.119.182&id=o-AGCCupiekhgeWtU6_7nOLvOhCLI6DZynFoFYhviS8EUi&itag=251&source=youtube&requiressl=yes&mh=ms&mm=31%2C29&mn=sn-1puv-2iae%2Csn-ab5l6n6l&ms=au%2Crdu&mv=m&mvi=4&pl=22&gcr=us&initcwndbps=1332500&vprv=1&mime=audio%2Fwebm&ns=vHPjeqmIMjnBjxiC0yrfWJAG&gir=yes&clen=3757070&dur=224.601&lmt=1631368289831537&mt=1644191820&fvip=4&keepalive=yes&fexp=24001373%2C24007246&c=WEB&txp=5431432&n=oF_TYF12iwuaXWaZg&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cgcr%2Cvprv%2Cmime%2Cns%2Cgir%2Cclen%2Cdur%2Clmt&lsparams=mh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Cinitcwndbps&lsig=AG3C_xAwRAIgDTNSTGpMt3va0L5ka3EN2AVXkIcwV25WIpE5ktroCVMCIG1qqJOvmf89Z7A2XnW9zq6euy6fTJyIvOXHQbmWwOdt&sig=AOq0QJ8wRQIhAMI3SDC1wQ_LOQ_QItTE8MZwMt-0nutdRpKcjiT1h1I7AiA0-Dtku3xTP7D6MAuwV-a17zk23EbCAlvzC5qoBhcwZA==',
-    title: 'Track 2',
-    artist: 'Track Artist',
-  });
+  //await TrackPlayer.add({
+  //  url: 'https://rr4---sn-1puv-2iae.googlevideo.com/videoplayback?expire=1644213806&ei=zmEAYrLtAsHo8wTzlYGwAQ&ip=67.63.119.182&id=o-AGCCupiekhgeWtU6_7nOLvOhCLI6DZynFoFYhviS8EUi&itag=251&source=youtube&requiressl=yes&mh=ms&mm=31%2C29&mn=sn-1puv-2iae%2Csn-ab5l6n6l&ms=au%2Crdu&mv=m&mvi=4&pl=22&gcr=us&initcwndbps=1332500&vprv=1&mime=audio%2Fwebm&ns=vHPjeqmIMjnBjxiC0yrfWJAG&gir=yes&clen=3757070&dur=224.601&lmt=1631368289831537&mt=1644191820&fvip=4&keepalive=yes&fexp=24001373%2C24007246&c=WEB&txp=5431432&n=oF_TYF12iwuaXWaZg&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cgcr%2Cvprv%2Cmime%2Cns%2Cgir%2Cclen%2Cdur%2Clmt&lsparams=mh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Cinitcwndbps&lsig=AG3C_xAwRAIgDTNSTGpMt3va0L5ka3EN2AVXkIcwV25WIpE5ktroCVMCIG1qqJOvmf89Z7A2XnW9zq6euy6fTJyIvOXHQbmWwOdt&sig=AOq0QJ8wRQIhAMI3SDC1wQ_LOQ_QItTE8MZwMt-0nutdRpKcjiT1h1I7AiA0-Dtku3xTP7D6MAuwV-a17zk23EbCAlvzC5qoBhcwZA==',
+  //  title: 'Track 1',
+  //  artist: 'Track Artist',
+  //});
+  //await TrackPlayer.add({
+  //  url: 'https://rr4---sn-1puv-2iae.googlevideo.com/videoplayback?expire=1644213806&ei=zmEAYrLtAsHo8wTzlYGwAQ&ip=67.63.119.182&id=o-AGCCupiekhgeWtU6_7nOLvOhCLI6DZynFoFYhviS8EUi&itag=251&source=youtube&requiressl=yes&mh=ms&mm=31%2C29&mn=sn-1puv-2iae%2Csn-ab5l6n6l&ms=au%2Crdu&mv=m&mvi=4&pl=22&gcr=us&initcwndbps=1332500&vprv=1&mime=audio%2Fwebm&ns=vHPjeqmIMjnBjxiC0yrfWJAG&gir=yes&clen=3757070&dur=224.601&lmt=1631368289831537&mt=1644191820&fvip=4&keepalive=yes&fexp=24001373%2C24007246&c=WEB&txp=5431432&n=oF_TYF12iwuaXWaZg&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cgcr%2Cvprv%2Cmime%2Cns%2Cgir%2Cclen%2Cdur%2Clmt&lsparams=mh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Cinitcwndbps&lsig=AG3C_xAwRAIgDTNSTGpMt3va0L5ka3EN2AVXkIcwV25WIpE5ktroCVMCIG1qqJOvmf89Z7A2XnW9zq6euy6fTJyIvOXHQbmWwOdt&sig=AOq0QJ8wRQIhAMI3SDC1wQ_LOQ_QItTE8MZwMt-0nutdRpKcjiT1h1I7AiA0-Dtku3xTP7D6MAuwV-a17zk23EbCAlvzC5qoBhcwZA==',
+  //  title: 'Track 2',
+  //  artist: 'Track Artist',
+  //});
   TrackPlayer.setRepeatMode(RepeatMode.Queue);
 }
 async function toggle() {
@@ -70,12 +70,14 @@ async function search(searchText, setSearchItems, searchItems) {
   let json = await response.json();
   let titles = json.titles;
   let artists = json.artists;
+  let videoId = json.videoId;
   //no freaking idea why this has to be done this garbo way but it works
   let allSearchObj = [];
   for (let i = 0; i < titles.length; i++) {
     allSearchObj.push({
       title: titles[i],
       artist: artists[i],
+      videoId: videoId[i],
       id: Math.random() * 1000,
     });
   }

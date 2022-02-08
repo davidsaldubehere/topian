@@ -1,12 +1,33 @@
 import React from 'react';
 import {Text, View, StyleSheet, TouchableNativeFeedback} from 'react-native';
-
-const SearchItem = ({artist, title}) => {
+import TrackPlayer, {
+  State,
+  usePlaybackState,
+  useProgress,
+  useTrackPlayerEvents,
+  RepeatMode,
+  Event,
+  Capability,
+} from 'react-native-track-player';
+async function addSongToQueue(artist, title, videoId) {
+  let url = 'https://topian.pythonanywhere.com';
+  let response = await fetch(`${url}/download/${videoId}`);
+  let source = await response.text();
+  TrackPlayer.add({
+    url: source,
+    artist: artist,
+    title: title,
+  });
+}
+const SearchItem = ({artist, title, videoId}) => {
   return (
-    <View style={styles.searchItem}>
-      <Text style={styles.textBold}>Song: {title}</Text>
-      <Text style={styles.text}>Artist: {artist}</Text>
-    </View>
+    <TouchableNativeFeedback
+      onPress={() => addSongToQueue(artist, title, videoId)}>
+      <View style={styles.searchItem}>
+        <Text style={styles.textBold}>Song: {title}</Text>
+        <Text style={styles.text}>Artist: {artist}</Text>
+      </View>
+    </TouchableNativeFeedback>
   );
 };
 
