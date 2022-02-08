@@ -71,13 +71,23 @@ async function search(searchText, setSearchItems, searchItems) {
   let titles = json.titles;
   let artists = json.artists;
   //no freaking idea why this has to be done this garbo way but it works
-  await setSearchItems([
-    ...searchItems,
-    {title: titles[0], artist: artists[1], id: Math.random() * 1000},
-    {title: titles[1], artist: artists[2], id: Math.random() * 1000},
-    {title: titles[2], artist: artists[2], id: Math.random() * 1000},
-    {title: titles[3], artist: artists[2], id: Math.random() * 1000},
-  ]);
+  let allSearchObj = [];
+  for (let i = 0; i < titles.length; i++) {
+    allSearchObj.push({
+      title: titles[i],
+      artist: artists[i],
+      id: Math.random() * 1000,
+    });
+  }
+  console.log(allSearchObj);
+  setSearchItems(allSearchObj);
+  //await setSearchItems([
+  //  ...searchItems,
+  //  {title: titles[0], artist: artists[1], id: Math.random() * 1000},
+  //  {title: titles[1], artist: artists[2], id: Math.random() * 1000},
+  //  {title: titles[2], artist: artists[2], id: Math.random() * 1000},
+  //  {title: titles[3], artist: artists[2], id: Math.random() * 1000},
+  //]);
 
   console.log(titles[3]);
 }

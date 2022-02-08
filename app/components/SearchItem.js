@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import {Text, View, StyleSheet, TouchableNativeFeedback} from 'react-native';
 
 const SearchItem = ({artist, title}) => {
   return (
