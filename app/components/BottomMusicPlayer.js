@@ -112,12 +112,6 @@ export default function BottomMusicPlayer() {
   );
 }
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'black',
-    justifyContent: 'flex-end',
-    color: 'white',
-  },
   text: {
     color: 'white',
     margin: 30,
@@ -125,53 +119,15 @@ const styles = StyleSheet.create({
     fontSize: 17,
     maxWidth: '40%',
   },
-  textBold: {
-    color: 'white',
-    margin: 30,
-    marginBottom: 200,
-    textAlign: 'left',
-    fontSize: 35,
-    maxWidth: '90%',
-    borderBottomWidth: 3,
-    borderColor: 'white',
-  },
-  nav: {
-    alignItems: 'center',
-    width: '100%',
-    borderBottomColor: 'white',
-    borderBottomWidth: 3,
-    borderBottomEndRadius: 10,
-    borderBottomStartRadius: 10,
-  },
-  navList: {
-    width: '60%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  navItem: {
-    margin: 10,
-    alignItems: 'center',
-  },
-  navText: {
-    color: 'white',
-  },
 
-  top: {
-    position: 'absolute',
-    top: 0,
-    width: '100%',
-    alignItems: 'center',
-  },
-  scrollView: {
-    height: '50%',
-    width: '100%',
-  },
   musicControls: {
     width: '100%',
     position: 'relative',
     backgroundColor: 'black',
     borderTopColor: 'blue',
-    borderTopWidth: 10,
+    borderTopWidth: 5,
+    borderTopStartRadius: 10,
+    borderTopEndRadius: 10,
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',

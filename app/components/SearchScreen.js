@@ -22,6 +22,7 @@ import iconButton from 'react-native-vector-icons/dist/lib/icon-button';
 import SearchItem from './SearchItem';
 import SearchList from './SearchList';
 import BottomMusicPlayer from './BottomMusicPlayer';
+import NavBar from './NavBar';
 async function search(searchText, setSearchItems, searchItems) {
   let url = 'https://topian.pythonanywhere.com';
   let response = await fetch(`${url}/search/${searchText}`);
@@ -29,13 +30,14 @@ async function search(searchText, setSearchItems, searchItems) {
   let titles = json.titles;
   let artists = json.artists;
   let videoId = json.videoId;
-  //no freaking idea why this has to be done this garbo way but it works
+  let thumbnails = json.thumbnails;
   let allSearchObj = [];
   for (let i = 0; i < titles.length; i++) {
     allSearchObj.push({
       title: titles[i],
       artist: artists[i],
       videoId: videoId[i],
+      thumbnail: thumbnails[i],
       id: Math.random() * 1000,
     });
   }
@@ -59,6 +61,8 @@ const SearchScreen = ({navigation, trackTitle, setTrackTitle}) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.top}>
+        <NavBar navigation={navigation} />
+
         <View style={styles.search}>
           <TextInput
             style={styles.input}
@@ -84,7 +88,7 @@ const SearchScreen = ({navigation, trackTitle, setTrackTitle}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'black',
+    backgroundColor: '#121212',
     alignItems: 'center',
     justifyContent: 'flex-end',
     color: 'white',

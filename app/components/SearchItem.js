@@ -1,5 +1,11 @@
 import React from 'react';
-import {Text, View, StyleSheet, TouchableNativeFeedback} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableNativeFeedback,
+  Image,
+} from 'react-native';
 import TrackPlayer, {
   State,
   usePlaybackState,
@@ -19,13 +25,21 @@ async function addSongToQueue(artist, title, videoId) {
     title: title,
   });
 }
-const SearchItem = ({artist, title, videoId}) => {
+const SearchItem = ({artist, title, videoId, thumbnail}) => {
   return (
     <TouchableNativeFeedback
       onPress={() => addSongToQueue(artist, title, videoId)}>
       <View style={styles.searchItem}>
-        <Text style={styles.textBold}>Song: {title}</Text>
-        <Text style={styles.text}>Artist: {artist}</Text>
+        <View style={styles.infoContainer}>
+          <Text style={styles.textBold}>Song: {title}</Text>
+          <Text style={styles.text}>Artist: {artist}</Text>
+        </View>
+        <Image
+          style={styles.tinyThumb}
+          source={{
+            uri: thumbnail,
+          }}
+        />
       </View>
     </TouchableNativeFeedback>
   );
@@ -34,11 +48,17 @@ const SearchItem = ({artist, title, videoId}) => {
 const styles = StyleSheet.create({
   searchItem: {
     padding: 10,
-    alignContent: 'flex-start',
+    flexDirection: 'row',
     borderColor: 'white',
+    justifyContent: 'space-between',
     borderWidth: 3,
     borderRadius: 10,
     width: '90%',
+    margin: 5,
+  },
+  infoContainer: {
+    alignContent: 'flex-start',
+
     margin: 5,
   },
   text: {
@@ -48,6 +68,11 @@ const styles = StyleSheet.create({
   textBold: {
     fontWeight: 'bold',
     color: 'white',
+  },
+  tinyThumb: {
+    position: 'relative',
+    width: 50,
+    height: 50,
   },
 });
 export default SearchItem;

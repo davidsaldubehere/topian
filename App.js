@@ -30,8 +30,16 @@ const App = () => {
         screenOptions={{
           headerShown: false,
         }}>
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Search" component={SearchScreen} />
+        <Stack.Screen
+          options={{presentation: 'transparentModal'}}
+          name="Home"
+          component={HomeScreen}
+        />
+        <Stack.Screen
+          name="Search"
+          component={SearchScreen}
+          options={{presentation: 'transparentModal'}}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
