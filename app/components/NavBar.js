@@ -31,7 +31,7 @@ export default function NavBar({navigation}) {
           <Icon.Button
             style={{paddingRight: 0}}
             name="search1"
-            backgroundColor="black"
+            backgroundColor="transparent"
             size={25}
             onPress={() => navigation.navigate('Search')}
           />
@@ -42,7 +42,7 @@ export default function NavBar({navigation}) {
           <Icon.Button
             name="home"
             style={{paddingRight: 0}}
-            backgroundColor="black"
+            backgroundColor="transparent"
             size={25}
             onPress={() => navigation.navigate('Home')}
           />
@@ -52,7 +52,7 @@ export default function NavBar({navigation}) {
           <Icon.Button
             name="heart"
             style={{paddingRight: 0}}
-            backgroundColor="black"
+            backgroundColor="transparent"
             size={25}
           />
           <Text style={styles.navText}>Likes</Text>
@@ -70,6 +70,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 3,
     borderBottomEndRadius: 10,
     borderBottomStartRadius: 10,
+    backgroundColor: '#272727',
   },
   navList: {
     width: '60%',
@@ -82,5 +83,6 @@ const styles = StyleSheet.create({
   },
   navText: {
     color: 'white',
+    fontFamily: 'Product Sans Regular',
   },
 });

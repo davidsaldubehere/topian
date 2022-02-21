@@ -23,14 +23,18 @@ import SearchItem from './SearchItem';
 import SearchList from './SearchList';
 import BottomMusicPlayer from './BottomMusicPlayer';
 import NavBar from './NavBar';
+import Playlists from './Playlists';
 export default function HomeScreen({navigation}) {
   const playbackState = usePlaybackState();
   return (
     <SafeAreaView style={styles.container}>
       <NavBar navigation={navigation} />
       <ScrollView styles={styles.scrollView}>
-        <Text style={styles.textBold}>Playlists</Text>
-        <Text style={styles.text}>Wow there's nothing here. Shocking.</Text>
+        <View style={styles.innerContainer}>
+          <Text style={styles.textBold}>Playlists</Text>
+          <Playlists />
+          <Text style={styles.text}>No one fucking loves you</Text>
+        </View>
         <Text style={styles.textBold}>Recommendations</Text>
         <Text style={styles.textBold}>Stuff</Text>
       </ScrollView>
@@ -46,17 +50,24 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     color: 'white',
   },
+  innerContainer: {
+    marginLeft: 20,
+  },
   text: {
     color: 'white',
-    margin: 30,
+    marginTop: 30,
     fontWeight: 'bold',
     fontSize: 17,
     maxWidth: '40%',
+    fontFamily: 'Product Sans Regular',
   },
   textBold: {
+    fontFamily: 'Product Sans Regular',
     color: 'white',
-    margin: 30,
-    marginBottom: 200,
+    marginBottom: 30,
+    marginTop: 30,
+
+    //marginBottom: 200,
     textAlign: 'left',
     fontSize: 35,
     maxWidth: '90%',

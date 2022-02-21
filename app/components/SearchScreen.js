@@ -99,6 +99,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 17,
     maxWidth: '40%',
+    fontFamily: 'Product Sans Regular',
   },
   top: {
     position: 'absolute',

@@ -91,13 +91,13 @@ export default function BottomMusicPlayer() {
       <Icon.Button
         name="stepbackward"
         size={30}
-        backgroundColor="black"
+        backgroundColor="transparent"
         onPress={() => TrackPlayer.skipToPrevious()}
       />
 
       <Icon.Button
         name={playbackState === State.Playing ? 'pause' : 'caretright'}
-        backgroundColor="black"
+        backgroundColor="transparent"
         size={30}
         style={styles.audioButton}
         onPress={() => toggle()}
@@ -105,7 +105,7 @@ export default function BottomMusicPlayer() {
       <Icon.Button
         name="stepforward"
         size={30}
-        backgroundColor="black"
+        backgroundColor="transparent"
         onPress={() => TrackPlayer.skipToNext()}
       />
     </View>
@@ -118,12 +118,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 17,
     maxWidth: '40%',
+    fontFamily: 'Product Sans Regular',
   },
 
   musicControls: {
     width: '100%',
     position: 'relative',
-    backgroundColor: 'black',
+    backgroundColor: '#272727',
     borderTopColor: 'blue',
     borderTopWidth: 5,
     borderTopStartRadius: 10,

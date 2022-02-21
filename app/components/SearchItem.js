@@ -58,16 +58,18 @@ const styles = StyleSheet.create({
   },
   infoContainer: {
     alignContent: 'flex-start',
-
+    maxWidth: '80%',
     margin: 5,
   },
   text: {
     color: 'white',
     marginRight: 10,
+    fontFamily: 'Product Sans Regular',
   },
   textBold: {
     fontWeight: 'bold',
     color: 'white',
+    fontFamily: 'Product Sans Regular',
   },
   tinyThumb: {
     position: 'relative',
