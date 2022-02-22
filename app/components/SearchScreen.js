@@ -23,8 +23,12 @@ import SearchItem from './SearchItem';
 import SearchList from './SearchList';
 import BottomMusicPlayer from './BottomMusicPlayer';
 import NavBar from './NavBar';
-async function search(searchText, setSearchItems, searchItems) {
+import LottieView from 'lottie-react-native';
+
+async function search(searchText, setSearchItems, searchItems, setIsLoading) {
   let url = 'https://topian.pythonanywhere.com';
+  await setIsLoading(true);
+
   let response = await fetch(`${url}/search/${searchText}`);
   let json = await response.json();
   let titles = json.titles;
@@ -41,8 +45,10 @@ async function search(searchText, setSearchItems, searchItems) {
       id: Math.random() * 1000,
     });
   }
-  console.log(allSearchObj);
+
   setSearchItems(allSearchObj);
+  await setIsLoading(false);
+  console.log(allSearchObj);
   //await setSearchItems([
   //  ...searchItems,
   //  {title: titles[0], artist: artists[1], id: Math.random() * 1000},
@@ -58,11 +64,11 @@ const SearchScreen = ({navigation, trackTitle, setTrackTitle}) => {
 
   const [searchItems, setSearchItems] = useState([]);
   const [searchText, setSearchText] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.top}>
         <NavBar navigation={navigation} />
-
         <View style={styles.search}>
           <TextInput
             style={styles.input}
@@ -76,10 +82,26 @@ const SearchScreen = ({navigation, trackTitle, setTrackTitle}) => {
             name="search1"
             size={30}
             backgroundColor="transparent"
-            onPress={() => search(searchText, setSearchItems, searchItems)}
+            onPress={() =>
+              search(
+                searchText,
+                setSearchItems,
+                searchItems,
+                setIsLoading,
+                isLoading,
+              )
+            }
           />
         </View>
         <SearchList searchItems={searchItems} />
+        {isLoading === true && (
+          <LottieView
+            source={require('../../assets/loading3.json')}
+            autoPlay
+            loop
+            style={styles.loadingAnimation}
+          />
+        )}
       </View>
       <BottomMusicPlayer />
     </SafeAreaView>
@@ -124,15 +146,9 @@ const styles = StyleSheet.create({
     borderColor: 'white',
     borderRadius: 15,
   },
-  musicControls: {
-    width: '100%',
-    position: 'relative',
-    backgroundColor: 'black',
-    borderTopColor: 'blue',
-    borderTopWidth: 10,
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+  loadingAnimation: {
+    width: 100,
+    height: 200,
   },
 });
 export default SearchScreen;

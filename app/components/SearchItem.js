@@ -15,6 +15,7 @@ import TrackPlayer, {
   Event,
   Capability,
 } from 'react-native-track-player';
+
 async function addSongToQueue(artist, title, videoId) {
   let url = 'https://topian.pythonanywhere.com';
   let response = await fetch(`${url}/download/${videoId}`);
@@ -51,6 +52,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderColor: 'white',
     justifyContent: 'space-between',
+    backgroundColor: '#272727',
     borderWidth: 3,
     borderRadius: 10,
     width: '90%',

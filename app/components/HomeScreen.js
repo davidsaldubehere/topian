@@ -33,10 +33,15 @@ export default function HomeScreen({navigation}) {
         <View style={styles.innerContainer}>
           <Text style={styles.textBold}>Playlists</Text>
           <Playlists />
-          <Text style={styles.text}>No one fucking loves you</Text>
         </View>
-        <Text style={styles.textBold}>Recommendations</Text>
-        <Text style={styles.textBold}>Stuff</Text>
+        <View style={styles.innerContainer}>
+          <Text style={styles.textBold}>Recommendations</Text>
+          <Playlists />
+        </View>
+        <View style={styles.innerContainer}>
+          <Text style={styles.textBold}>Stuff</Text>
+          <Playlists />
+        </View>
       </ScrollView>
       <BottomMusicPlayer />
     </SafeAreaView>
@@ -71,7 +76,7 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     fontSize: 35,
     maxWidth: '90%',
-    borderBottomWidth: 3,
+    //borderBottomWidth: 3,
     borderColor: 'white',
   },
   nav: {

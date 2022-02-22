@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   nav: {
     alignItems: 'center',
     width: '100%',
-    borderBottomColor: 'blue',
+    borderBottomColor: '#047AFF',
     borderBottomWidth: 3,
     borderBottomEndRadius: 10,
     borderBottomStartRadius: 10,
