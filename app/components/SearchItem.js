@@ -26,14 +26,15 @@ async function addSongToQueue(artist, title, videoId) {
     title: title,
   });
 }
-const SearchItem = ({artist, title, videoId, thumbnail}) => {
+const SearchItem = ({artist, title, videoId, thumbnail, resultType}) => {
   return (
     <TouchableNativeFeedback
-      onPress={() => addSongToQueue(artist, title, videoId)}>
+      onPress={() => addSongToQueue(artist, title, videoId, resultType)}>
       <View style={styles.searchItem}>
         <View style={styles.infoContainer}>
-          <Text style={styles.textBold}>Song: {title}</Text>
+          <Text style={styles.textBold}>Title: {title}</Text>
           <Text style={styles.text}>Artist: {artist}</Text>
+          <Text style={styles.text}>Type: {resultType}</Text>
         </View>
         <Image
           style={styles.tinyThumb}
@@ -55,8 +56,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#272727',
     borderWidth: 3,
     borderRadius: 10,
-    width: '90%',
-    margin: 5,
+    width: '100%',
+    marginTop: 5,
   },
   infoContainer: {
     alignContent: 'flex-start',
@@ -75,8 +76,8 @@ const styles = StyleSheet.create({
   },
   tinyThumb: {
     position: 'relative',
-    width: 50,
-    height: 50,
+    width: 75,
+    height: 75,
   },
 });
 export default SearchItem;

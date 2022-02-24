@@ -35,6 +35,7 @@ async function search(searchText, setSearchItems, searchItems, setIsLoading) {
   let artists = json.artists;
   let videoId = json.videoId;
   let thumbnails = json.thumbnails;
+  let resultType = json.resultType;
   let allSearchObj = [];
   for (let i = 0; i < titles.length; i++) {
     allSearchObj.push({
@@ -42,6 +43,7 @@ async function search(searchText, setSearchItems, searchItems, setIsLoading) {
       artist: artists[i],
       videoId: videoId[i],
       thumbnail: thumbnails[i],
+      resultType: resultType[i],
       id: Math.random() * 1000,
     });
   }
@@ -93,7 +95,11 @@ const SearchScreen = ({navigation, trackTitle, setTrackTitle}) => {
             }
           />
         </View>
-        <SearchList searchItems={searchItems} />
+        <View style={styles.searchList}>
+          <ScrollView>
+            <SearchList searchItems={searchItems} />
+          </ScrollView>
+        </View>
         {isLoading === true && (
           <LottieView
             source={require('../../assets/loading3.json')}
@@ -115,6 +121,12 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     color: 'white',
   },
+  searchList: {
+    alignContent: 'center',
+    width: '90%',
+    maxHeight: '65%',
+  },
+
   text: {
     color: 'white',
     margin: 30,
@@ -144,7 +156,7 @@ const styles = StyleSheet.create({
     color: 'white',
     width: '80%',
     borderColor: 'white',
-    borderRadius: 15,
+    borderRadius: 12,
   },
   loadingAnimation: {
     width: 100,

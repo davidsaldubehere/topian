@@ -85,7 +85,7 @@ export default function BottomMusicPlayer() {
   }, []);
   return (
     <View style={styles.musicControls}>
-      <Text maxLines={1} style={styles.text}>
+      <Text numberOfLines={1} style={styles.text} ellipsizeMode="tail">
         {trackTitle}
       </Text>
       <Icon.Button
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     margin: 30,
     fontWeight: 'bold',
     fontSize: 17,
-    maxWidth: '40%',
+    width: '30%',
     fontFamily: 'Product Sans Regular',
   },
 
