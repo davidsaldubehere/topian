@@ -91,6 +91,7 @@ export default function FullMusicPlayer({route, navigation}) {
   useEffect(() => {
     checkLikedState(setIsLiked);
   }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.musicInfo}>
