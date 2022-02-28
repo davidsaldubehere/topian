@@ -27,6 +27,7 @@ import LottieView from 'lottie-react-native';
 
 async function search(searchText, setSearchItems, searchItems, setIsLoading) {
   let url = 'https://topian.pythonanywhere.com';
+  await setSearchItems([]);
   await setIsLoading(true);
 
   let response = await fetch(`${url}/search/${searchText}`);
@@ -96,7 +97,9 @@ const SearchScreen = ({navigation, trackTitle, setTrackTitle}) => {
           />
         </View>
         <View style={styles.searchList}>
-          <ScrollView>
+          <ScrollView
+            keyboardDismissMode="on-drag"
+            keyboardShouldPersistTaps="always">
             <SearchList searchItems={searchItems} />
           </ScrollView>
         </View>
@@ -109,7 +112,7 @@ const SearchScreen = ({navigation, trackTitle, setTrackTitle}) => {
           />
         )}
       </View>
-      <BottomMusicPlayer />
+      <BottomMusicPlayer navigation={navigation} />
     </SafeAreaView>
   );
 };

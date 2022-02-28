@@ -16,20 +16,27 @@ import TrackPlayer, {
   Capability,
 } from 'react-native-track-player';
 
-async function addSongToQueue(artist, title, videoId) {
+async function addSongToQueue(artist, title, videoId, thumbnail) {
   let url = 'https://topian.pythonanywhere.com';
   let response = await fetch(`${url}/download/${videoId}`);
   let source = await response.text();
-  TrackPlayer.add({
+  console.log('received song');
+  await TrackPlayer.reset();
+  console.log('reset track player');
+  await TrackPlayer.add({
+    artwork: thumbnail,
     url: source,
     artist: artist,
     title: title,
+    id: videoId,
   });
+  console.log('added song to queue');
+  TrackPlayer.play();
 }
 const SearchItem = ({artist, title, videoId, thumbnail, resultType}) => {
   return (
     <TouchableNativeFeedback
-      onPress={() => addSongToQueue(artist, title, videoId, resultType)}>
+      onPress={() => addSongToQueue(artist, title, videoId, thumbnail)}>
       <View style={styles.searchItem}>
         <View style={styles.infoContainer}>
           <Text style={styles.textBold}>Title: {title}</Text>
@@ -61,7 +68,7 @@ const styles = StyleSheet.create({
   },
   infoContainer: {
     alignContent: 'flex-start',
-    maxWidth: '80%',
+    maxWidth: '60%',
     margin: 5,
   },
   text: {

@@ -32,7 +32,7 @@ export default function HomeScreen({navigation}) {
       <ScrollView styles={styles.scrollView}>
         <View style={styles.innerContainer}>
           <Text style={styles.textBold}>Playlists</Text>
-          <Playlists />
+          <Playlists navigation={navigation} />
         </View>
         <View style={styles.innerContainer}>
           <Text style={styles.textBold}>Recommendations</Text>
@@ -43,7 +43,7 @@ export default function HomeScreen({navigation}) {
           <Playlists />
         </View>
       </ScrollView>
-      <BottomMusicPlayer />
+      <BottomMusicPlayer navigation={navigation} />
     </SafeAreaView>
   );
 }
@@ -71,12 +71,9 @@ const styles = StyleSheet.create({
     color: 'white',
     marginBottom: 30,
     marginTop: 30,
-
-    //marginBottom: 200,
     textAlign: 'left',
     fontSize: 35,
     maxWidth: '90%',
-    //borderBottomWidth: 3,
     borderColor: 'white',
   },
   nav: {

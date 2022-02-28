@@ -1,24 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  TextInput,
-  SafeAreaView,
-  ScrollView,
-} from 'react-native';
-import TrackPlayer, {
-  State,
-  usePlaybackState,
-  useProgress,
-  useTrackPlayerEvents,
-  RepeatMode,
-  Event,
-  Capability,
-} from 'react-native-track-player';
 import HomeScreen from './app/components/HomeScreen';
 import SearchScreen from './app/components/SearchScreen';
+import FullMusicPlayer from './app/components/FullMusicPlayer';
+import PlaylistScreen from './app/components/PlaylistScreen';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
@@ -38,6 +22,16 @@ const App = () => {
         <Stack.Screen
           name="Search"
           component={SearchScreen}
+          options={{presentation: 'transparentModal'}}
+        />
+        <Stack.Screen
+          name="Full"
+          component={FullMusicPlayer}
+          options={{presentation: 'transparentModal'}}
+        />
+        <Stack.Screen
+          name="Playlist"
+          component={PlaylistScreen}
           options={{presentation: 'transparentModal'}}
         />
       </Stack.Navigator>

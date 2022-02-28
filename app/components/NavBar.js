@@ -22,7 +22,16 @@ import iconButton from 'react-native-vector-icons/dist/lib/icon-button';
 import SearchItem from './SearchItem';
 import SearchList from './SearchList';
 import BottomMusicPlayer from './BottomMusicPlayer';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
+async function checkLikesExist(navigation) {
+  let keys = AsyncStorage.getAllKeys();
+  if ((await keys).includes('likes')) {
+    navigation.navigate('Playlist', {
+      playlistName: 'Likes',
+      playlistKey: 'likes',
+    });
+  }
+}
 export default function NavBar({navigation}) {
   return (
     <View style={styles.nav}>
@@ -54,6 +63,7 @@ export default function NavBar({navigation}) {
             style={{paddingRight: 0}}
             backgroundColor="transparent"
             size={25}
+            onPress={() => checkLikesExist(navigation)}
           />
           <Text style={styles.navText}>Likes</Text>
         </View>

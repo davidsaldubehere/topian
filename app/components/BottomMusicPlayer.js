@@ -1,13 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  TextInput,
-  SafeAreaView,
-  ScrollView,
-} from 'react-native';
+import {StyleSheet, Text, View, TouchableNativeFeedback} from 'react-native';
 import TrackPlayer, {
   State,
   usePlaybackState,
@@ -18,9 +10,7 @@ import TrackPlayer, {
   Capability,
 } from 'react-native-track-player';
 import Icon from 'react-native-vector-icons/AntDesign';
-import iconButton from 'react-native-vector-icons/dist/lib/icon-button';
-import SearchItem from './SearchItem';
-import SearchList from './SearchList';
+
 async function toggle() {
   const state = await TrackPlayer.getState();
 
@@ -30,12 +20,14 @@ async function toggle() {
     TrackPlayer.play();
   }
 }
-async function start(setTrackTitle) {
+async function start(setTrackTitle, setArtist, setArtworkURL) {
   const currentTrack = await TrackPlayer.getCurrentTrack();
   if (currentTrack !== null) {
     let trackIndex = await TrackPlayer.getCurrentTrack();
     let trackObject = await TrackPlayer.getTrack(trackIndex);
     setTrackTitle(trackObject.title);
+    setArtist(trackObject.artist);
+    setArtworkURL(trackObject.artwork);
     return;
   }
   // Set up the player
@@ -65,11 +57,12 @@ async function start(setTrackTitle) {
   //});
   TrackPlayer.setRepeatMode(RepeatMode.Queue);
 }
-export default function BottomMusicPlayer() {
+export default function BottomMusicPlayer({navigation}) {
   const progress = useProgress();
   const playbackState = usePlaybackState();
   const [trackTitle, setTrackTitle] = useState('none');
-
+  const [artist, setArtist] = useState('none');
+  const [artworkURL, setArtworkURL] = useState('none');
   useTrackPlayerEvents([Event.PlaybackTrackChanged], async event => {
     if (
       event.type === Event.PlaybackTrackChanged &&
@@ -78,37 +71,50 @@ export default function BottomMusicPlayer() {
       const track = await TrackPlayer.getTrack(event.nextTrack);
       const {title, artist, artwork} = track || {};
       setTrackTitle(title);
+      setArtist(artist);
+      setArtworkURL(artwork);
     }
   });
   useEffect(() => {
-    start(setTrackTitle);
+    start(setTrackTitle, setArtist, setArtworkURL);
   }, []);
   return (
-    <View style={styles.musicControls}>
-      <Text numberOfLines={1} style={styles.text} ellipsizeMode="tail">
-        {trackTitle}
-      </Text>
-      <Icon.Button
-        name="stepbackward"
-        size={30}
-        backgroundColor="transparent"
-        onPress={() => TrackPlayer.skipToPrevious()}
-      />
+    <TouchableNativeFeedback
+      onPress={() =>
+        navigation.navigate('Full', {
+          trackTitle: trackTitle,
+          artist: artist,
+          artworkURL,
+        })
+      }>
+      <View style={styles.musicControls}>
+        <Text numberOfLines={1} style={styles.text} ellipsizeMode="tail">
+          {trackTitle}
+        </Text>
+        <Icon.Button
+          name="stepbackward"
+          size={30}
+          backgroundColor="transparent"
+          style={{paddingRight: 0}}
+          onPress={() => TrackPlayer.skipToPrevious()}
+        />
 
-      <Icon.Button
-        name={playbackState === State.Playing ? 'pause' : 'caretright'}
-        backgroundColor="transparent"
-        size={30}
-        style={styles.audioButton}
-        onPress={() => toggle()}
-      />
-      <Icon.Button
-        name="stepforward"
-        size={30}
-        backgroundColor="transparent"
-        onPress={() => TrackPlayer.skipToNext()}
-      />
-    </View>
+        <Icon.Button
+          name={playbackState === State.Playing ? 'pause' : 'caretright'}
+          backgroundColor="transparent"
+          size={30}
+          style={{paddingRight: 0}}
+          onPress={() => toggle()}
+        />
+        <Icon.Button
+          name="stepforward"
+          size={30}
+          style={{paddingRight: 0}}
+          backgroundColor="transparent"
+          onPress={() => TrackPlayer.skipToNext()}
+        />
+      </View>
+    </TouchableNativeFeedback>
   );
 }
 const styles = StyleSheet.create({
@@ -123,7 +129,6 @@ const styles = StyleSheet.create({
 
   musicControls: {
     width: '100%',
-    position: 'relative',
     backgroundColor: '#272727',
     borderTopColor: '#047AFF',
     borderTopWidth: 5,
