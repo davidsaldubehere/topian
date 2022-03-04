@@ -24,6 +24,7 @@ import SearchItem from './SearchItem';
 import SearchList from './SearchList';
 import BottomMusicPlayer from './BottomMusicPlayer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import ytdl from 'react-native-ytdl';
 
 async function loadPlaylist(key, setPlaylistItems) {
   let playlist = await AsyncStorage.getItem(key);
@@ -33,25 +34,22 @@ async function loadPlaylist(key, setPlaylistItems) {
 async function playAll() {
   let playlist = await AsyncStorage.getItem('likes');
   playlist = JSON.parse(playlist);
-  let toAdd = [];
-
-  for (let song of playlist) {
-    let response = await fetch(
-      `http://www.youtube.com/watch?v=${song.videoId}`,
-    );
+  await TrackPlayer.reset();
+  for (let i = 0; i < playlist.length; i++) {
+    let youtubeURL = `http://www.youtube.com/watch?v=${playlist[i].videoId}`;
     let source = await ytdl(youtubeURL, {quality: 'highestaudio'});
     let temp = {
-      artwork: song.thumbnail,
+      artwork: playlist[i].thumbnail,
       url: source[0].url,
-      artist: song.artist,
-      title: song.title,
-      id: song.videoId,
+      artist: playlist[i].artist,
+      title: playlist[i].title,
+      id: playlist[i].videoId,
     };
-    toAdd.push(temp);
+    await TrackPlayer.add(temp);
+    if (i === 0) {
+      await TrackPlayer.play();
+    }
   }
-  await TrackPlayer.reset();
-  await TrackPlayer.add(toAdd);
-  await TrackPlayer.play();
 }
 export default function PlaylistScreen({route, navigation}) {
   const {playlistName, playlistKey} = route.params;

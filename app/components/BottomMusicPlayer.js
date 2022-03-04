@@ -20,14 +20,14 @@ async function toggle() {
     TrackPlayer.play();
   }
 }
-async function start(setTrackTitle, setArtist, setArtworkURL) {
+async function start(setTrackTitle, setArtist, setVideoId) {
   const currentTrack = await TrackPlayer.getCurrentTrack();
   if (currentTrack !== null) {
     let trackIndex = await TrackPlayer.getCurrentTrack();
     let trackObject = await TrackPlayer.getTrack(trackIndex);
     setTrackTitle(trackObject.title);
     setArtist(trackObject.artist);
-    setArtworkURL(trackObject.artwork);
+    setVideoId(trackObject.id);
     return;
   }
   // Set up the player
@@ -62,29 +62,29 @@ export default function BottomMusicPlayer({navigation}) {
   const playbackState = usePlaybackState();
   const [trackTitle, setTrackTitle] = useState('none');
   const [artist, setArtist] = useState('none');
-  const [artworkURL, setArtworkURL] = useState('none');
+  const [videoId, setVideoId] = useState('none');
   useTrackPlayerEvents([Event.PlaybackTrackChanged], async event => {
     if (
       event.type === Event.PlaybackTrackChanged &&
       event.nextTrack !== undefined
     ) {
       const track = await TrackPlayer.getTrack(event.nextTrack);
-      const {title, artist, artwork} = track || {};
+      const {title, artist, id} = track || {};
       setTrackTitle(title);
       setArtist(artist);
-      setArtworkURL(artwork);
+      setVideoId(id);
     }
   });
   useEffect(() => {
-    start(setTrackTitle, setArtist, setArtworkURL);
+    start(setTrackTitle, setArtist, setVideoId);
   }, []);
   return (
     <TouchableNativeFeedback
       onPress={() =>
         navigation.navigate('Full', {
-          trackTitle: trackTitle,
-          artist: artist,
-          artworkURL,
+          trackTitle,
+          artist,
+          videoId,
         })
       }>
       <View style={styles.musicControls}>

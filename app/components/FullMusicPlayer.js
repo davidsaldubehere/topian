@@ -83,11 +83,10 @@ async function addToPlaylist(playlist, isLiked, setIsLiked) {
 }
 
 export default function FullMusicPlayer({route, navigation}) {
-  const {trackTitle, artist, artworkURL} = route.params;
+  const {trackTitle, artist, videoId} = route.params;
   const [isLiked, setIsLiked] = useState(false);
   const playbackState = usePlaybackState();
   const progress = useProgress();
-
   useEffect(() => {
     checkLikedState(setIsLiked);
   }, []);
@@ -99,7 +98,7 @@ export default function FullMusicPlayer({route, navigation}) {
           <Image
             style={styles.artwork}
             source={{
-              uri: artworkURL,
+              uri: `http://img.youtube.com/vi/${videoId}/maxresdefault.jpg`,
             }}
           />
         </View>

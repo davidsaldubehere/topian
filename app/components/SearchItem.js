@@ -27,6 +27,7 @@ async function addSongToQueue(artist, title, videoId, thumbnail) {
   console.log('received song');
   await TrackPlayer.reset();
   console.log('reset track player');
+  console.log('Search Item', videoId);
   await TrackPlayer.add({
     artwork: thumbnail,
     url: source[0].url,
