@@ -34,7 +34,7 @@ async function playAll() {
   let playlist = await AsyncStorage.getItem('likes');
   playlist = JSON.parse(playlist);
   let toAdd = [];
-  let url = 'https://topian.pythonanywhere.com';
+  let url = 'http://nuggetapi.ddns.net';
 
   for (let song of playlist) {
     let response = await fetch(`${url}/download/${song.videoId}`);

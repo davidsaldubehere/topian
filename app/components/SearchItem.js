@@ -17,7 +17,7 @@ import TrackPlayer, {
 } from 'react-native-track-player';
 
 async function addSongToQueue(artist, title, videoId, thumbnail) {
-  let url = 'https://topian.pythonanywhere.com';
+  let url = 'http://nuggetapi.ddns.net';
   let response = await fetch(`${url}/download/${videoId}`);
   let source = await response.text();
   console.log('received song');
