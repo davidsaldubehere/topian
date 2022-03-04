@@ -26,7 +26,7 @@ import NavBar from './NavBar';
 import LottieView from 'lottie-react-native';
 
 async function search(searchText, setSearchItems, searchItems, setIsLoading) {
-  let url = 'http://nuggetapi.ddns.net';
+  let url = 'https://topian.pythonanywhere.com';
   await setSearchItems([]);
   await setIsLoading(true);
 

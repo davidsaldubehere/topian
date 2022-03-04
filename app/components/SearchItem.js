@@ -15,17 +15,21 @@ import TrackPlayer, {
   Event,
   Capability,
 } from 'react-native-track-player';
+import ytdl from 'react-native-ytdl';
 
 async function addSongToQueue(artist, title, videoId, thumbnail) {
-  let url = 'http://nuggetapi.ddns.net';
-  let response = await fetch(`${url}/download/${videoId}`);
-  let source = await response.text();
+  //let url = 'http://nuggetapi.ddns.net';
+  //let response = await fetch(`${url}/download/${videoId}`);
+  //let source = await response.text();
+
+  const youtubeURL = `http://www.youtube.com/watch?v=${videoId}`;
+  let source = await ytdl(youtubeURL, {quality: 'highestaudio'});
   console.log('received song');
   await TrackPlayer.reset();
   console.log('reset track player');
   await TrackPlayer.add({
     artwork: thumbnail,
-    url: source,
+    url: source[0].url,
     artist: artist,
     title: title,
     id: videoId,

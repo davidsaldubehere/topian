@@ -34,14 +34,15 @@ async function playAll() {
   let playlist = await AsyncStorage.getItem('likes');
   playlist = JSON.parse(playlist);
   let toAdd = [];
-  let url = 'http://nuggetapi.ddns.net';
 
   for (let song of playlist) {
-    let response = await fetch(`${url}/download/${song.videoId}`);
-    let source = await response.text();
+    let response = await fetch(
+      `http://www.youtube.com/watch?v=${song.videoId}`,
+    );
+    let source = await ytdl(youtubeURL, {quality: 'highestaudio'});
     let temp = {
       artwork: song.thumbnail,
-      url: source,
+      url: source[0].url,
       artist: song.artist,
       title: song.title,
       id: song.videoId,
