@@ -37,11 +37,11 @@ export default function HomeScreen({navigation}) {
         </View>
         <View style={styles.innerContainer}>
           <Text style={styles.textBold}>Recommendations</Text>
-          <Playlists />
+          <Playlists navigation={navigation} />
         </View>
         <View style={styles.innerContainer}>
           <Text style={styles.textBold}>Stuff</Text>
-          <Playlists />
+          <Playlists navigation={navigation} />
         </View>
       </ScrollView>
       <GlobalMusicPlayer navigation={navigation} target={'bottom'} />

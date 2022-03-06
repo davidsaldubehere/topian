@@ -8,6 +8,8 @@ import {
   SafeAreaView,
   ScrollView,
   Image,
+  Modal,
+  TouchableNativeFeedback,
 } from 'react-native';
 import Slider from '@react-native-community/slider';
 import TrackPlayer, {
@@ -58,8 +60,10 @@ async function addToPlaylist(playlist, isLiked, setIsLiked) {
   let currentKeys = await AsyncStorage.getAllKeys();
   if (!currentKeys.includes(playlist)) {
     await AsyncStorage.setItem(playlist, JSON.stringify([songObj]));
-    await setIsLiked(true);
-    console.log('created new likes key');
+    if (playlist === 'likes') {
+      await setIsLiked(true);
+    }
+    console.log('created new key', playlist);
   } else {
     let previousState = await AsyncStorage.getItem(playlist);
     let playlistArray = JSON.parse(previousState);
@@ -81,17 +85,54 @@ async function addToPlaylist(playlist, isLiked, setIsLiked) {
     console.log(playlistArray);
   }
 }
-
+async function getPlaylists(setPlaylists) {
+  let keys = await AsyncStorage.getAllKeys();
+  setPlaylists(keys);
+}
 export default function FullMusicPlayer({trackTitle, artist, videoId}) {
   const [isLiked, setIsLiked] = useState(false);
+  const [playlists, setPlaylists] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
   const playbackState = usePlaybackState();
   const progress = useProgress();
   useEffect(() => {
     checkLikedState(setIsLiked);
+    getPlaylists(setPlaylists);
   }, []);
 
   return (
     <SafeAreaView style={styles.container}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Select a playlist to add to</Text>
+            {playlists.map(playlist => {
+              return (
+                <TouchableNativeFeedback
+                  key={playlist}
+                  onPress={() => {
+                    addToPlaylist(playlist);
+                    setModalVisible(!modalVisible);
+                  }}>
+                  <Text style={styles.modalText}>{playlist}</Text>
+                </TouchableNativeFeedback>
+              );
+            })}
+            <TouchableNativeFeedback
+              style={styles.button}
+              onPress={() => setModalVisible(!modalVisible)}>
+              <Text style={styles.modalText}>Hide</Text>
+            </TouchableNativeFeedback>
+          </View>
+        </View>
+      </Modal>
+
       <View style={styles.musicInfo}>
         <View style={styles.artworkContainer}>
           <Image
@@ -134,6 +175,7 @@ export default function FullMusicPlayer({trackTitle, artist, videoId}) {
           style={{paddingRight: 0}}
           size={30}
           backgroundColor="transparent"
+          onPress={() => setModalVisible(!modalVisible)}
         />
         <Icon.Button
           name="stepbackward"
@@ -174,6 +216,29 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     backgroundColor: '#272727',
     alignItems: 'center',
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalView: {
+    position: 'absolute',
+    top: '40%',
+    backgroundColor: 'black',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 7,
+  },
+  modalText: {
+    color: 'white',
+    fontSize: 20,
+    margin: 10,
+    fontFamily: 'Product Sans Regular',
+  },
+  button: {
+    borderRadius: 7,
+    borderColor: 'white',
   },
   musicInfo: {
     textAlign: 'left',

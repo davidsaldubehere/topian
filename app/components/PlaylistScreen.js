@@ -30,6 +30,11 @@ async function loadPlaylist(key, setPlaylistItems) {
   let playlist = await AsyncStorage.getItem(key);
   playlist = JSON.parse(playlist);
   setPlaylistItems(playlist);
+  //console.log(
+  //  await validateURL(
+  //    'https://rr4---sn-1puv-2iae.googlevideo.com/videoplayback?expire=1646608840&ei=aO0kYuqsJo7OgwOE_6vQAw&ip=67.63.119.182&id=o-AKXPpBFU4dPhscmRdaK_mI7V_tdgB18aC9dR14_8IRHb&itag=251&source=youtube&requiressl=yes&mh=gq&mm=31%2C29&mn=sn-1puv-2iae%2Csn-ab5sznld&ms=au%2Crdu&mv=m&mvi=4&pl=22&gcr=us&initcwndbps=1503750&vprv=1&mime=audio%2Fwebm&ns=kwMMg7LXPGtFncD4kJA7h9EG&gir=yes&clen=4011840&dur=257.481&lmt=1583268244888739&mt=1646586767&fvip=5&keepalive=yes&fexp=24001373%2C24007246&c=WEB&txp=5531432&n=n9vCa0kSYMa5Wfwg1&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cgcr%2Cvprv%2Cmime%2Cns%2Cgir%2Cclen%2Cdur%2Clmt&lsparams=mh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Cinitcwndbps&lsig=AG3C_xAwRAIgG8Pbn14FtcgAI7o1OskvmX6AhwXVfTgqz-_nLxkT6QcCIC2GWOvWrDMiUKi6mIcoNysh59VgH6xuds4oYC71t1kH&ratebypass=yes&sig=AOq0QJ8wRQIhAMDrE7BrxstReZ9A5OI7n6Hk7Gao4KfE0JaarL2VbEZVAiBQUVPBfmNELKi3UDm0Kz7ddOmkeMC-fAgO3ekizLGWUA%3D%3D',
+  //  ),
+  //);
 }
 function shuffle(array) {
   let currentIndex = array.length,
@@ -50,8 +55,15 @@ function shuffle(array) {
 
   return array;
 }
-async function playAll(shouldShuffle) {
-  let playlist = await AsyncStorage.getItem('likes');
+async function validateURL(url) {
+  //make sure the url does not return a 403 error
+  let response = await fetch(url);
+  console.log(response.status);
+  return response.status == 403;
+}
+async function playAll(key, shouldShuffle) {
+  let playlist = await AsyncStorage.getItem(key);
+  console.log(key, playlist);
   playlist = JSON.parse(playlist);
   if (shouldShuffle) {
     playlist = shuffle(playlist);
@@ -60,6 +72,12 @@ async function playAll(shouldShuffle) {
   for (let i = 0; i < playlist.length; i++) {
     let youtubeURL = `http://www.youtube.com/watch?v=${playlist[i].videoId}`;
     let source = await ytdl(youtubeURL, {quality: 'highestaudio'});
+    //this isnt fast enough for some reason
+    //if (await validateURL(source[0].url)) {
+    //  console.log('invalid url');
+    //  console.log('trying again');
+    //  source = await ytdl(youtubeURL, {quality: 'highestaudio'});
+    //}
     let temp = {
       artwork: playlist[i].thumbnail,
       url: source[0].url,
@@ -67,7 +85,7 @@ async function playAll(shouldShuffle) {
       title: playlist[i].title,
       id: playlist[i].videoId,
     };
-    console.log('adding from playList', temp);
+    //console.log('adding from playList', temp);
     await TrackPlayer.add(temp);
     if (i === 0) {
       await TrackPlayer.play();
@@ -90,7 +108,7 @@ export default function PlaylistScreen({route, navigation}) {
             size={30}
             style={{paddingRight: 0}}
             backgroundColor="transparent"
-            onPress={() => playAll(false)}
+            onPress={() => playAll(playlistKey, false)}
           />
           <Icon.Button
             name="edit"
@@ -103,7 +121,7 @@ export default function PlaylistScreen({route, navigation}) {
             size={30}
             style={{paddingRight: 0}}
             backgroundColor="transparent"
-            onPress={() => playAll(true)}
+            onPress={() => playAll(playlistKey, true)}
           />
         </View>
       </View>
