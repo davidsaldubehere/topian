@@ -24,6 +24,7 @@ import SearchList from './SearchList';
 import BottomMusicPlayer from './BottomMusicPlayer';
 import NavBar from './NavBar';
 import Playlists from './Playlists';
+import GlobalMusicPlayer from './GlobalMusicPlayer';
 export default function HomeScreen({navigation}) {
   const playbackState = usePlaybackState();
   return (
@@ -43,7 +44,7 @@ export default function HomeScreen({navigation}) {
           <Playlists />
         </View>
       </ScrollView>
-      <BottomMusicPlayer navigation={navigation} />
+      <GlobalMusicPlayer navigation={navigation} target={'bottom'} />
     </SafeAreaView>
   );
 }

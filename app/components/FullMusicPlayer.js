@@ -82,8 +82,7 @@ async function addToPlaylist(playlist, isLiked, setIsLiked) {
   }
 }
 
-export default function FullMusicPlayer({route, navigation}) {
-  const {trackTitle, artist, videoId} = route.params;
+export default function FullMusicPlayer({trackTitle, artist, videoId}) {
   const [isLiked, setIsLiked] = useState(false);
   const playbackState = usePlaybackState();
   const progress = useProgress();

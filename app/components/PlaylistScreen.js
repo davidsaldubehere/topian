@@ -25,15 +25,37 @@ import SearchList from './SearchList';
 import BottomMusicPlayer from './BottomMusicPlayer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ytdl from 'react-native-ytdl';
-
+import GlobalMusicPlayer from './GlobalMusicPlayer';
 async function loadPlaylist(key, setPlaylistItems) {
   let playlist = await AsyncStorage.getItem(key);
   playlist = JSON.parse(playlist);
   setPlaylistItems(playlist);
 }
-async function playAll() {
+function shuffle(array) {
+  let currentIndex = array.length,
+    randomIndex;
+
+  // While there remain elements to shuffle...
+  while (currentIndex != 0) {
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex],
+      array[currentIndex],
+    ];
+  }
+
+  return array;
+}
+async function playAll(shouldShuffle) {
   let playlist = await AsyncStorage.getItem('likes');
   playlist = JSON.parse(playlist);
+  if (shouldShuffle) {
+    playlist = shuffle(playlist);
+  }
   await TrackPlayer.reset();
   for (let i = 0; i < playlist.length; i++) {
     let youtubeURL = `http://www.youtube.com/watch?v=${playlist[i].videoId}`;
@@ -45,6 +67,7 @@ async function playAll() {
       title: playlist[i].title,
       id: playlist[i].videoId,
     };
+    console.log('adding from playList', temp);
     await TrackPlayer.add(temp);
     if (i === 0) {
       await TrackPlayer.play();
@@ -67,7 +90,7 @@ export default function PlaylistScreen({route, navigation}) {
             size={30}
             style={{paddingRight: 0}}
             backgroundColor="transparent"
-            onPress={() => playAll()}
+            onPress={() => playAll(false)}
           />
           <Icon.Button
             name="edit"
@@ -80,6 +103,7 @@ export default function PlaylistScreen({route, navigation}) {
             size={30}
             style={{paddingRight: 0}}
             backgroundColor="transparent"
+            onPress={() => playAll(true)}
           />
         </View>
       </View>
@@ -95,7 +119,7 @@ export default function PlaylistScreen({route, navigation}) {
           />
         ))}
       </ScrollView>
-      <BottomMusicPlayer navigation={navigation} />
+      <GlobalMusicPlayer navigation={navigation} target={'bottom'} />
     </SafeAreaView>
   );
 }

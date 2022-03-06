@@ -24,6 +24,7 @@ import SearchList from './SearchList';
 import BottomMusicPlayer from './BottomMusicPlayer';
 import NavBar from './NavBar';
 import LottieView from 'lottie-react-native';
+import GlobalMusicPlayer from './GlobalMusicPlayer';
 
 async function search(searchText, setSearchItems, searchItems, setIsLoading) {
   let url = 'https://topian.pythonanywhere.com';
@@ -112,7 +113,7 @@ const SearchScreen = ({navigation, trackTitle, setTrackTitle}) => {
           />
         )}
       </View>
-      <BottomMusicPlayer navigation={navigation} />
+      <GlobalMusicPlayer navigation={navigation} target={'bottom'} />
     </SafeAreaView>
   );
 };

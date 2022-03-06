@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import HomeScreen from './app/components/HomeScreen';
 import SearchScreen from './app/components/SearchScreen';
-import FullMusicPlayer from './app/components/FullMusicPlayer';
+import GlobalMusicPlayer from './app/components/GlobalMusicPlayer';
 import PlaylistScreen from './app/components/PlaylistScreen';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -26,7 +26,7 @@ const App = () => {
         />
         <Stack.Screen
           name="Full"
-          component={FullMusicPlayer}
+          component={GlobalMusicPlayer}
           options={{presentation: 'transparentModal'}}
         />
         <Stack.Screen
