@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableNativeFeedback,
   Image,
+  Modal,
 } from 'react-native';
 import TrackPlayer, {
   State,
@@ -18,10 +19,6 @@ import TrackPlayer, {
 import ytdl from 'react-native-ytdl';
 
 async function addSongToQueue(artist, title, videoId, thumbnail) {
-  //let url = 'http://nuggetapi.ddns.net';
-  //let response = await fetch(`${url}/download/${videoId}`);
-  //let source = await response.text();
-
   const youtubeURL = `http://www.youtube.com/watch?v=${videoId}`;
   let source = await ytdl(youtubeURL, {quality: 'highestaudio'});
   console.log('received song');

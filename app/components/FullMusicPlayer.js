@@ -95,6 +95,7 @@ export default function FullMusicPlayer({trackTitle, artist, videoId}) {
   const [modalVisible, setModalVisible] = useState(false);
   const playbackState = usePlaybackState();
   const progress = useProgress();
+  //to do: fix some thumbnails not having a max res thumbnail
   useEffect(() => {
     checkLikedState(setIsLiked);
     getPlaylists(setPlaylists);
