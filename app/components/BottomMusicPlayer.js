@@ -22,9 +22,14 @@ async function toggle() {
 export default function BottomMusicPlayer({navigation, trackTitle}) {
   const playbackState = usePlaybackState();
   return (
-    <TouchableNativeFeedback onPress={() => navigation.navigate('Full')}>
+    <TouchableNativeFeedback
+      onPress={() => trackTitle != 'none' && navigation.navigate('Full')}>
       <View style={styles.musicControls}>
-        <Text numberOfLines={1} style={styles.text} ellipsizeMode="tail">
+        <Text
+          nativeID="gay"
+          numberOfLines={1}
+          style={styles.text}
+          ellipsizeMode="tail">
           {trackTitle}
         </Text>
         <Icon.Button

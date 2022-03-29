@@ -143,7 +143,11 @@ export default function FullMusicPlayer({trackTitle, artist, videoId}) {
             }}
           />
         </View>
-        <Text numberOfLines={1} style={styles.textBold} ellipsizeMode="tail">
+        <Text
+          nativeID="gay1"
+          numberOfLines={1}
+          style={styles.textBold}
+          ellipsizeMode="tail">
           {trackTitle}
         </Text>
         <Text style={styles.text}>{artist}</Text>
@@ -226,7 +230,7 @@ const styles = StyleSheet.create({
   modalView: {
     position: 'absolute',
     top: '40%',
-    backgroundColor: 'black',
+    backgroundColor: '#272727',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 7,

@@ -8,6 +8,7 @@ import {
   SafeAreaView,
   ScrollView,
   TouchableNativeFeedback,
+  InteractionManager,
 } from 'react-native';
 import TrackPlayer, {
   State,
@@ -18,6 +19,7 @@ import TrackPlayer, {
   Event,
   Capability,
 } from 'react-native-track-player';
+import {useFocusEffect} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import iconButton from 'react-native-vector-icons/dist/lib/icon-button';
 import SearchItem from './SearchItem';
@@ -57,27 +59,46 @@ function shuffle(array) {
 }
 async function validateURL(url) {
   //make sure the url does not return a 403 error
-  let response = await fetch(url);
-  console.log(response.status);
-  return response.status == 403;
+
+  //use the headers to make a request via fetch api
+  let response = await fetch('https://topian.pythonanywhere.com/validate', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      url: url,
+    }),
+  });
+  console.log(
+    'since react fetch wont fucking let me spoof my header im using my own server server',
+  );
+  console.log(response);
+  let responseJson = await response.json();
+  console.log(responseJson);
+  if (responseJson.yeet == '403') {
+    return true;
+  }
+  return false;
 }
-async function playAll(key, shouldShuffle) {
+async function playAll(key, shouldShuffle, startIndex) {
   let playlist = await AsyncStorage.getItem(key);
-  console.log(key, playlist);
   playlist = JSON.parse(playlist);
   if (shouldShuffle) {
     playlist = shuffle(playlist);
   }
   await TrackPlayer.reset();
   for (let i = 0; i < playlist.length; i++) {
+    console.log(key, `loading ${i} song`);
     let youtubeURL = `http://www.youtube.com/watch?v=${playlist[i].videoId}`;
     let source = await ytdl(youtubeURL, {quality: 'highestaudio'});
     //this isnt fast enough for some reason
-    //if (await validateURL(source[0].url)) {
-    //  console.log('invalid url');
-    //  console.log('trying again');
-    //  source = await ytdl(youtubeURL, {quality: 'highestaudio'});
-    //}
+    if (await validateURL(source[0].url)) {
+      console.log('invalid url');
+      console.log('trying again');
+      source = await ytdl(youtubeURL, {quality: 'highestaudio'});
+    }
     let temp = {
       artwork: playlist[i].thumbnail,
       url: source[0].url,
@@ -95,9 +116,16 @@ async function playAll(key, shouldShuffle) {
 export default function PlaylistScreen({route, navigation}) {
   const {playlistName, playlistKey} = route.params;
   const [playlistItems, setPlaylistItems] = useState([]);
-  useEffect(() => {
-    loadPlaylist(playlistKey, setPlaylistItems);
-  }, []);
+  const playbackState = usePlaybackState();
+  useFocusEffect(
+    React.useCallback(() => {
+      const task = InteractionManager.runAfterInteractions(() => {
+        loadPlaylist(playlistKey, setPlaylistItems);
+      });
+
+      return () => task.cancel();
+    }, []),
+  );
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.playlistHeader}>
