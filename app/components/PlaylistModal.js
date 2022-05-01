@@ -24,7 +24,6 @@ import TrackPlayer, {
 import Icon from 'react-native-vector-icons/AntDesign';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import iconButton from 'react-native-vector-icons/dist/lib/icon-button';
-import PlaylistModal from './PlaylistModal';
 async function toggle() {
   const state = await TrackPlayer.getState();
 
@@ -49,128 +48,87 @@ async function checkLikedState(setIsLiked) {
     setIsLiked(isLiked);
   }
 }
-async function addToPlaylist(playlist, isLiked, setIsLiked) {
-  let trackIndex = await TrackPlayer.getCurrentTrack();
-  let trackObject = await TrackPlayer.getTrack(trackIndex);
-  let songObj = {
-    title: trackObject.title,
-    artist: trackObject.artist,
-    videoId: trackObject.id,
-    thumbnail: trackObject.artwork,
-  };
+async function addToPlaylist(playlist, object) {
+  if (object == null) {
+    let trackIndex = await TrackPlayer.getCurrentTrack();
+    let trackObject = await TrackPlayer.getTrack(trackIndex);
+    var songObj = {
+      title: trackObject.title,
+      artist: trackObject.artist,
+      videoId: trackObject.id,
+      thumbnail: trackObject.artwork,
+    };
+  } else {
+    var songObj = object;
+  }
   let currentKeys = await AsyncStorage.getAllKeys();
   if (!currentKeys.includes(playlist)) {
     await AsyncStorage.setItem(playlist, JSON.stringify([songObj]));
-    if (playlist === 'likes') {
-      await setIsLiked(true);
-    }
     console.log('created new key', playlist);
   } else {
     let previousState = await AsyncStorage.getItem(playlist);
     let playlistArray = JSON.parse(previousState);
     console.log(previousState);
-    if (playlist === 'likes' && isLiked) {
-      console.log('removing liked song');
-      await setIsLiked(false);
-      playlistArray = playlistArray.filter(
-        song => song.title !== songObj.title,
-      );
-    } else {
-      playlistArray.push(songObj);
-      if (playlist === 'likes') {
-        console.log('adding liked song');
-        await setIsLiked(true);
-      }
-    }
+    playlistArray.push(songObj);
     await AsyncStorage.setItem(playlist, JSON.stringify(playlistArray));
     console.log(playlistArray);
   }
 }
-
-export default function FullMusicPlayer({trackTitle, artist, videoId}) {
-  const [isLiked, setIsLiked] = useState(false);
-  const playbackState = usePlaybackState();
-  const progress = useProgress();
+async function getPlaylists(setPlaylists) {
+  let keys = await AsyncStorage.getAllKeys();
+  setPlaylists(keys);
+}
+export default function PlaylistModal({size, object}) {
+  const [playlists, setPlaylists] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
   //to do: fix some thumbnails not having a max res thumbnail
+  //adding a song from search does not add the selected song to the playlist
+  //only adds the current song playing
   useEffect(() => {
-    checkLikedState(setIsLiked);
+    getPlaylists(setPlaylists);
   }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.musicInfo}>
-        <View style={styles.artworkContainer}>
-          <Image
-            style={styles.artwork}
-            source={{
-              uri: `http://img.youtube.com/vi/${videoId}/maxresdefault.jpg`,
-            }}
-          />
+    <View>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Select a playlist to add to</Text>
+            {playlists.map(playlist => {
+              return (
+                <TouchableNativeFeedback
+                  key={playlist}
+                  onPress={() => {
+                    addToPlaylist(playlist, object);
+                    setModalVisible(!modalVisible);
+                  }}>
+                  <Text style={styles.modalText}>{playlist}</Text>
+                </TouchableNativeFeedback>
+              );
+            })}
+            <TouchableNativeFeedback
+              style={styles.button}
+              onPress={() => setModalVisible(!modalVisible)}>
+              <Text style={styles.modalText}>Hide</Text>
+            </TouchableNativeFeedback>
+          </View>
         </View>
-        <Text
-          nativeID="gay1"
-          numberOfLines={1}
-          style={styles.textBold}
-          ellipsizeMode="tail">
-          {trackTitle}
-        </Text>
-        <Text style={styles.text}>{artist}</Text>
-      </View>
-      <View style={styles.sliderControls}>
-        <Text style={styles.progressLabelText}>
-          {new Date(progress.position * 1000).toISOString().substr(14, 5)}
-        </Text>
-        <Slider
-          style={styles.progressContainer}
-          value={progress.position}
-          minimumValue={0}
-          maximumValue={progress.duration}
-          thumbTintColor="#047AFF"
-          minimumTrackTintColor="#047AFF"
-          maximumTrackTintColor="#FFFFFF"
-          onSlidingComplete={async value => {
-            await TrackPlayer.seekTo(value);
-          }}
-        />
-        <Text style={styles.progressLabelText}>
-          {new Date((progress.duration - progress.position) * 1000)
-            .toISOString()
-            .substr(14, 5)}
-        </Text>
-      </View>
-      <View style={styles.musicControls}>
-        <PlaylistModal size={30} object={null}></PlaylistModal>
-        <Icon.Button
-          name="stepbackward"
-          size={30}
-          backgroundColor="transparent"
-          style={{paddingRight: 0}}
-          onPress={() => TrackPlayer.skipToPrevious()}
-        />
+      </Modal>
 
-        <Icon.Button
-          name={playbackState === State.Playing ? 'pause' : 'caretright'}
-          backgroundColor="transparent"
-          size={30}
-          style={{paddingRight: 0}}
-          onPress={() => toggle()}
-        />
-        <Icon.Button
-          name="stepforward"
-          size={30}
-          backgroundColor="transparent"
-          style={{paddingRight: 0}}
-          onPress={() => TrackPlayer.skipToNext()}
-        />
-        <Icon.Button
-          style={{paddingRight: 0}}
-          name={isLiked ? 'heart' : 'hearto'}
-          size={30}
-          backgroundColor="transparent"
-          onPress={() => addToPlaylist('likes', isLiked, setIsLiked)}
-        />
-      </View>
-    </SafeAreaView>
+      <Icon.Button
+        name="plus"
+        style={{paddingRight: 0}}
+        size={size}
+        backgroundColor="transparent"
+        onPress={() => setModalVisible(!modalVisible)}
+      />
+    </View>
   );
 }
 const styles = StyleSheet.create({
