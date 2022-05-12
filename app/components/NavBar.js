@@ -77,9 +77,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     borderBottomColor: '#047AFF',
-    borderBottomWidth: 3,
-    borderBottomEndRadius: 10,
-    borderBottomStartRadius: 10,
+    borderBottomWidth: 0,
+    borderBottomEndRadius: 15,
+    borderBottomStartRadius: 15,
     backgroundColor: '#272727',
   },
   navList: {

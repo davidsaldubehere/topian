@@ -34,21 +34,7 @@ async function toggle() {
     TrackPlayer.play();
   }
 }
-async function checkLikedState(setIsLiked) {
-  let trackIndex = await TrackPlayer.getCurrentTrack();
-  let trackObject = await TrackPlayer.getTrack(trackIndex);
-  let currentTitle = trackObject.title;
-  let currentKeys = await AsyncStorage.getAllKeys();
-  if (!currentKeys.includes('likes')) {
-    setIsLiked(false);
-    console.log('no likes key, so not liked');
-  } else {
-    let likes = await AsyncStorage.getItem('likes');
-    let likesArray = JSON.parse(likes);
-    let isLiked = likesArray.map(song => song.title).includes(currentTitle);
-    setIsLiked(isLiked);
-  }
-}
+
 async function addToPlaylist(playlist, isLiked, setIsLiked) {
   let trackIndex = await TrackPlayer.getCurrentTrack();
   let trackObject = await TrackPlayer.getTrack(trackIndex);
@@ -87,14 +73,16 @@ async function addToPlaylist(playlist, isLiked, setIsLiked) {
   }
 }
 
-export default function FullMusicPlayer({trackTitle, artist, videoId}) {
-  const [isLiked, setIsLiked] = useState(false);
+export default function FullMusicPlayer({
+  trackTitle,
+  artist,
+  videoId,
+  isLiked,
+  setIsLiked,
+}) {
   const playbackState = usePlaybackState();
   const progress = useProgress();
   //to do: fix some thumbnails not having a max res thumbnail
-  useEffect(() => {
-    checkLikedState(setIsLiked);
-  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -125,8 +113,12 @@ export default function FullMusicPlayer({trackTitle, artist, videoId}) {
           value={progress.position}
           minimumValue={0}
           maximumValue={progress.duration}
-          thumbTintColor="#047AFF"
-          minimumTrackTintColor="#047AFF"
+          thumbTintColor={
+            playbackState === State.Playing ? '#A85CF9' : '#047AFF'
+          }
+          minimumTrackTintColor={
+            playbackState === State.Playing ? '#A85CF9' : '#047AFF'
+          }
           maximumTrackTintColor="#FFFFFF"
           onSlidingComplete={async value => {
             await TrackPlayer.seekTo(value);

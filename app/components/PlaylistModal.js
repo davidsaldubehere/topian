@@ -91,12 +91,13 @@ export default function PlaylistModal({size, object}) {
   return (
     <View>
       <Modal
-        animationType="slide"
+        animationType="fade"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
           setModalVisible(!modalVisible);
-        }}>
+        }}
+        style={{backgroundColor: 'white'}}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Text style={styles.modalText}>Select a playlist to add to</Text>
@@ -146,7 +147,7 @@ const styles = StyleSheet.create({
   modalView: {
     position: 'absolute',
     top: '40%',
-    backgroundColor: '#272727',
+    backgroundColor: '#212121',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 7,

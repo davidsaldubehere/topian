@@ -41,7 +41,7 @@ export default function Playlists({navigation}) {
     getPlaylists(setPlaylists);
   }, []);
   return (
-    <ScrollView horizontal={true}>
+    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
       <Modal
         animationType="slide"
         transparent={true}
@@ -134,12 +134,14 @@ const styles = StyleSheet.create({
   input: {
     height: 40,
     margin: 12,
-    borderWidth: 2,
+    borderWidth: 0,
+    backgroundColor: '#212121',
     padding: 10,
     color: 'white',
     width: '80%',
     borderColor: 'white',
     borderRadius: 12,
+    fontSize: 15,
   },
   playlist: {
     backgroundColor: '#272727',

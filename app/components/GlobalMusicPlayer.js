@@ -11,10 +11,11 @@ import TrackPlayer, {
 } from 'react-native-track-player';
 import Icon from 'react-native-vector-icons/AntDesign';
 import BottomMusicPlayer from './BottomMusicPlayer';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import FullMusicPlayer from './FullMusicPlayer';
 import ytdl from 'react-native-ytdl';
 
-async function start(setTrackTitle, setArtist, setVideoId) {
+async function start(setTrackTitle, setArtist, setVideoId, setIsLiked) {
   const currentTrack = await TrackPlayer.getCurrentTrack();
   if (currentTrack !== null) {
     let trackIndex = await TrackPlayer.getCurrentTrack();
@@ -22,6 +23,7 @@ async function start(setTrackTitle, setArtist, setVideoId) {
     setTrackTitle(trackObject.title);
     setArtist(trackObject.artist);
     setVideoId(trackObject.id);
+    checkLikedState(setIsLiked);
     return;
   }
   // Set up the player
@@ -41,7 +43,15 @@ async function start(setTrackTitle, setArtist, setVideoId) {
 
   TrackPlayer.setRepeatMode(RepeatMode.Queue);
 }
-function detectTarget(navigation, target, trackTitle, artist, videoId) {
+function detectTarget(
+  navigation,
+  target,
+  trackTitle,
+  artist,
+  videoId,
+  isLiked,
+  setIsLiked,
+) {
   if (target == 'bottom') {
     return (
       <BottomMusicPlayer navigation={navigation} trackTitle={trackTitle} />
@@ -52,14 +62,32 @@ function detectTarget(navigation, target, trackTitle, artist, videoId) {
         trackTitle={trackTitle}
         artist={artist}
         videoId={videoId}
+        isLiked={isLiked}
+        setIsLiked={setIsLiked}
       />
     );
+  }
+}
+async function checkLikedState(setIsLiked) {
+  let trackIndex = await TrackPlayer.getCurrentTrack();
+  let trackObject = await TrackPlayer.getTrack(trackIndex);
+  let currentTitle = trackObject.title;
+  let currentKeys = await AsyncStorage.getAllKeys();
+  if (!currentKeys.includes('likes')) {
+    setIsLiked(false);
+    console.log('no likes key, so not liked');
+  } else {
+    let likes = await AsyncStorage.getItem('likes');
+    let likesArray = JSON.parse(likes);
+    let isLiked = likesArray.map(song => song.title).includes(currentTitle);
+    setIsLiked(isLiked);
   }
 }
 export default function GlobalMusicPlayer({navigation, target}) {
   const [trackTitle, setTrackTitle] = useState('none');
   const [artist, setArtist] = useState('none');
   const [videoId, setVideoId] = useState('none');
+  const [isLiked, setIsLiked] = useState(false);
   useTrackPlayerEvents([Event.PlaybackTrackChanged], async event => {
     if (
       event.type === Event.PlaybackTrackChanged &&
@@ -70,6 +98,7 @@ export default function GlobalMusicPlayer({navigation, target}) {
       setTrackTitle(title);
       setArtist(artist);
       setVideoId(id);
+      checkLikedState(setIsLiked);
     }
   });
   //useTrackPlayerEvents([Event.PlaybackError], async event => {
@@ -96,11 +125,19 @@ export default function GlobalMusicPlayer({navigation, target}) {
   //  await TrackPlayer.play();
   //});
   useEffect(() => {
-    start(setTrackTitle, setArtist, setVideoId);
+    start(setTrackTitle, setArtist, setVideoId, setIsLiked);
   }, []);
   return (
     <View style={{flex: target != 'bottom' ? 1 : 0}}>
-      {detectTarget(navigation, target, trackTitle, artist, videoId)}
+      {detectTarget(
+        navigation,
+        target,
+        trackTitle,
+        artist,
+        videoId,
+        isLiked,
+        setIsLiked,
+      )}
     </View>
   );
 }

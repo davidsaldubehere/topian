@@ -53,7 +53,7 @@ const SearchItem = ({artist, title, videoId, thumbnail, resultType}) => {
           <Text style={styles.text}>Type: {resultType}</Text>
         </View>
         <Modal
-          animationType="slide"
+          animationType="fade"
           transparent={true}
           visible={queueModalVisible}
           onRequestClose={() => {
@@ -95,7 +95,7 @@ const SearchItem = ({artist, title, videoId, thumbnail, resultType}) => {
           />
           <Icon.Button
             name="bars"
-            style={{paddingRight: 0, paddingTop: 0}}
+            style={{paddingRight: 0, paddingTop: 6}}
             size={30}
             backgroundColor="transparent"
             onPress={() => setQueueModalVisible(!queueModalVisible)}
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     borderColor: 'white',
     justifyContent: 'space-between',
     backgroundColor: '#272727',
-    borderWidth: 3,
+    borderWidth: 0,
     borderRadius: 10,
     width: '100%',
     marginTop: 5,
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
   modalView: {
     position: 'absolute',
     top: '40%',
-    backgroundColor: '#121212',
+    backgroundColor: '#212121',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 7,

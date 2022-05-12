@@ -7,6 +7,7 @@ import {
   TextInput,
   SafeAreaView,
   ScrollView,
+  TouchableNativeFeedback,
 } from 'react-native';
 import TrackPlayer, {
   State,
@@ -25,47 +26,11 @@ import BottomMusicPlayer from './BottomMusicPlayer';
 import NavBar from './NavBar';
 import LottieView from 'lottie-react-native';
 import GlobalMusicPlayer from './GlobalMusicPlayer';
+import SearchDropdown from './SearchDropdown';
 
-async function search(searchText, setSearchItems, searchItems, setIsLoading) {
-  let url = 'https://topian.pythonanywhere.com';
-  await setSearchItems([]);
-  await setIsLoading(true);
-
-  let response = await fetch(`${url}/search/${searchText}`);
-  let json = await response.json();
-  let titles = json.titles;
-  let artists = json.artists;
-  let videoId = json.videoId;
-  let thumbnails = json.thumbnails;
-  let resultType = json.resultType;
-  let allSearchObj = [];
-  for (let i = 0; i < titles.length; i++) {
-    allSearchObj.push({
-      title: titles[i],
-      artist: artists[i],
-      videoId: videoId[i],
-      thumbnail: thumbnails[i],
-      resultType: resultType[i],
-      id: Math.random() * 1000,
-    });
-  }
-
-  setSearchItems(allSearchObj);
-  await setIsLoading(false);
-  console.log(allSearchObj);
-  //await setSearchItems([
-  //  ...searchItems,
-  //  {title: titles[0], artist: artists[1], id: Math.random() * 1000},
-  //  {title: titles[1], artist: artists[2], id: Math.random() * 1000},
-  //  {title: titles[2], artist: artists[2], id: Math.random() * 1000},
-  //  {title: titles[3], artist: artists[2], id: Math.random() * 1000},
-  //]);
-
-  console.log(titles[3]);
-}
 const SearchScreen = ({navigation, trackTitle, setTrackTitle}) => {
   const playbackState = usePlaybackState();
-
+  const [showFilterDropdown, setShowFilterDropdown] = useState(false);
   const [searchItems, setSearchItems] = useState([]);
   const [searchText, setSearchText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -76,7 +41,7 @@ const SearchScreen = ({navigation, trackTitle, setTrackTitle}) => {
         <View style={styles.search}>
           <TextInput
             style={styles.input}
-            placeholder="Search for a song..."
+            placeholder="Search for anything..."
             keyboardType="ascii-capable"
             selectionColor={'white'}
             onChangeText={setSearchText}
@@ -86,19 +51,20 @@ const SearchScreen = ({navigation, trackTitle, setTrackTitle}) => {
             name="search1"
             size={30}
             backgroundColor="transparent"
-            onPress={() =>
-              search(
-                searchText,
-                setSearchItems,
-                searchItems,
-                setIsLoading,
-                isLoading,
-              )
-            }
+            onPress={() => {
+              setShowFilterDropdown(!showFilterDropdown);
+            }}
           />
         </View>
         <View style={styles.searchList}>
+          {showFilterDropdown === true && (
+            <SearchDropdown
+              searchText={searchText}
+              setSearchItems={setSearchItems}
+              setIsLoading={setIsLoading}></SearchDropdown>
+          )}
           <ScrollView
+            showsVerticalScrollIndicator={false}
             keyboardDismissMode="on-drag"
             keyboardShouldPersistTaps="always">
             <SearchList searchItems={searchItems} />
@@ -152,9 +118,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   input: {
+    backgroundColor: '#212121',
     height: 40,
     margin: 12,
-    borderWidth: 2,
+    borderWidth: 0,
     padding: 10,
     color: 'white',
     width: '80%',

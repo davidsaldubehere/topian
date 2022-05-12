@@ -135,6 +135,7 @@ export default function PlaylistScreen({route, navigation}) {
             name="play"
             size={30}
             style={{paddingRight: 0}}
+            color={'grey'}
             backgroundColor="transparent"
             onPress={() => playAll(playlistKey, false)}
           />
@@ -142,18 +143,20 @@ export default function PlaylistScreen({route, navigation}) {
             name="edit"
             size={30}
             style={{paddingRight: 0}}
+            color={'grey'}
             backgroundColor="transparent"
           />
           <Icon.Button
             name="swap"
             size={30}
             style={{paddingRight: 0}}
+            color={'grey'}
             backgroundColor="transparent"
             onPress={() => playAll(playlistKey, true)}
           />
         </View>
       </View>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         {playlistItems.map(item => (
           <SearchItem
             title={item.title}
@@ -180,7 +183,7 @@ const styles = StyleSheet.create({
   playlistHeader: {
     marginTop: 20,
     marginBottom: 20,
-    borderBottomColor: 'white',
+    borderBottomColor: 'grey',
     borderBottomWidth: 1,
   },
 
