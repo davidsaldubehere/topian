@@ -19,16 +19,25 @@ async function toggle() {
   }
 }
 
-export default function BottomMusicPlayer({navigation, trackTitle}) {
+export default function BottomMusicPlayer({
+  navigation,
+  specialColor,
+  trackTitle,
+}) {
   const playbackState = usePlaybackState();
   return (
     <TouchableNativeFeedback
       onPress={() => trackTitle != 'none' && navigation.navigate('Full')}>
-      <View style={styles(playbackState).musicControls}>
+      <View
+        style={{
+          ...styles.musicControls,
+          borderTopColor:
+            playbackState === State.Playing ? specialColor : '#047AFF',
+        }}>
         <Text
           nativeID="gay"
           numberOfLines={1}
-          style={styles(playbackState).text}
+          style={styles.text}
           ellipsizeMode="tail">
           {trackTitle}
         </Text>
@@ -58,26 +67,24 @@ export default function BottomMusicPlayer({navigation, trackTitle}) {
     </TouchableNativeFeedback>
   );
 }
-const styles = playbackState =>
-  StyleSheet.create({
-    text: {
-      color: 'white',
-      margin: 30,
-      fontWeight: 'bold',
-      fontSize: 17,
-      width: '30%',
-      fontFamily: 'Product Sans Regular',
-    },
+const styles = StyleSheet.create({
+  text: {
+    color: 'white',
+    margin: 30,
+    fontWeight: 'bold',
+    fontSize: 17,
+    width: '30%',
+    fontFamily: 'Product Sans Regular',
+  },
 
-    musicControls: {
-      width: '100%',
-      backgroundColor: '#272727',
-      borderTopColor: playbackState === State.Playing ? '#A85CF9' : '#047AFF',
-      borderTopWidth: 4,
-      borderTopStartRadius: 10,
-      borderTopEndRadius: 10,
-      alignItems: 'center',
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-    },
-  });
+  musicControls: {
+    width: '100%',
+    backgroundColor: '#272727',
+    borderTopWidth: 4,
+    borderTopStartRadius: 10,
+    borderTopEndRadius: 10,
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+});
