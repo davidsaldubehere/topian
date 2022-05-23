@@ -6,6 +6,7 @@ import {
   TouchableNativeFeedback,
   Image,
   Modal,
+  Vibration,
 } from 'react-native';
 import TrackPlayer, {
   State,
@@ -19,32 +20,35 @@ import TrackPlayer, {
 import Icon from 'react-native-vector-icons/AntDesign';
 import ytdl from 'react-native-ytdl';
 import PlaylistModal from './PlaylistModal';
-async function addSongToQueue(artist, title, videoId, thumbnail, restart) {
-  const youtubeURL = `http://www.youtube.com/watch?v=${videoId}`;
-  let source = await ytdl(youtubeURL, {quality: 'highestaudio'});
-  console.log('received song');
-  if (restart) {
-    await TrackPlayer.reset();
-    console.log('reset track player');
-  }
-
-  console.log('Search Item', videoId);
-  await TrackPlayer.add({
-    artwork: thumbnail,
-    url: source[0].url,
-    artist: artist,
-    title: title,
-    id: videoId,
-  });
-  console.log('added song to queue');
-  TrackPlayer.play();
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {addSongToQueue} from './Helpers';
+async function removeFromPlaylist(playlist, title, setReloadPlaylist) {
+  let previousState = await AsyncStorage.getItem(playlist);
+  let playlistArray = JSON.parse(previousState);
+  console.log('removing from playlist', playlist, title);
+  console.log(previousState);
+  playlistArray = playlistArray.filter(song => song.title !== title);
+  await AsyncStorage.setItem(playlist, JSON.stringify(playlistArray));
+  console.log(playlistArray);
+  setReloadPlaylist(true);
 }
-
-const SearchItem = ({artist, title, videoId, thumbnail, resultType}) => {
+const SearchItem = ({
+  artist,
+  title,
+  videoId,
+  thumbnail,
+  resultType,
+  editable,
+  playlist,
+  setReloadPlaylist,
+}) => {
   const [queueModalVisible, setQueueModalVisible] = useState(false);
-  const [playlistModalVisible, setPlaylistModalVisible] = useState(false);
   return (
     <TouchableNativeFeedback
+      delayLongPress={1000}
+      onLongPress={() => {
+        setQueueModalVisible(!queueModalVisible);
+      }}
       onPress={() => addSongToQueue(artist, title, videoId, thumbnail, true)}>
       <View style={styles.searchItem}>
         <View style={styles.infoContainer}>
@@ -93,13 +97,25 @@ const SearchItem = ({artist, title, videoId, thumbnail, resultType}) => {
               uri: thumbnail,
             }}
           />
-          <Icon.Button
-            name="bars"
-            style={{paddingRight: 0, paddingTop: 6}}
-            size={30}
-            backgroundColor="transparent"
-            onPress={() => setQueueModalVisible(!queueModalVisible)}
-          />
+          {editable ? (
+            <Icon.Button
+              name="close"
+              style={{paddingRight: 0, paddingTop: 6}}
+              size={30}
+              backgroundColor="transparent"
+              onPress={() =>
+                removeFromPlaylist(playlist, title, setReloadPlaylist)
+              }
+            />
+          ) : (
+            <Icon.Button
+              name="bars"
+              style={{paddingRight: 0, paddingTop: 6}}
+              size={30}
+              backgroundColor="transparent"
+              onPress={() => setQueueModalVisible(!queueModalVisible)}
+            />
+          )}
         </View>
       </View>
     </TouchableNativeFeedback>

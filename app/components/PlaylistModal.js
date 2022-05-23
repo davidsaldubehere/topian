@@ -33,21 +33,7 @@ async function toggle() {
     TrackPlayer.play();
   }
 }
-async function checkLikedState(setIsLiked) {
-  let trackIndex = await TrackPlayer.getCurrentTrack();
-  let trackObject = await TrackPlayer.getTrack(trackIndex);
-  let currentTitle = trackObject.title;
-  let currentKeys = await AsyncStorage.getAllKeys();
-  if (!currentKeys.includes('likes')) {
-    setIsLiked(false);
-    console.log('no likes key, so not liked');
-  } else {
-    let likes = await AsyncStorage.getItem('likes');
-    let likesArray = JSON.parse(likes);
-    let isLiked = likesArray.map(song => song.title).includes(currentTitle);
-    setIsLiked(isLiked);
-  }
-}
+
 async function addToPlaylist(playlist, object) {
   if (object == null) {
     let trackIndex = await TrackPlayer.getCurrentTrack();
@@ -82,8 +68,6 @@ export default function PlaylistModal({size, object}) {
   const [playlists, setPlaylists] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   //to do: fix some thumbnails not having a max res thumbnail
-  //adding a song from search does not add the selected song to the playlist
-  //only adds the current song playing
   useEffect(() => {
     getPlaylists(setPlaylists);
   }, []);

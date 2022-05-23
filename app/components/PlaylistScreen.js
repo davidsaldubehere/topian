@@ -74,7 +74,6 @@ async function validateURL(url) {
   console.log(
     'since react fetch wont fucking let me spoof my header im using my own server server',
   );
-  console.log(response);
   let responseJson = await response.json();
   console.log(responseJson);
   if (responseJson.yeet == '403') {
@@ -106,7 +105,7 @@ async function playAll(key, shouldShuffle, startIndex) {
       title: playlist[i].title,
       id: playlist[i].videoId,
     };
-    //console.log('adding from playList', temp);
+    console.log('adding from playList ' + temp + ' \n');
     await TrackPlayer.add(temp);
     if (i === 0) {
       await TrackPlayer.play();
@@ -116,7 +115,8 @@ async function playAll(key, shouldShuffle, startIndex) {
 export default function PlaylistScreen({route, navigation}) {
   const {playlistName, playlistKey} = route.params;
   const [playlistItems, setPlaylistItems] = useState([]);
-  const playbackState = usePlaybackState();
+  const [editable, setEditable] = useState(false);
+  const [reloadPlaylist, setReloadPlaylist] = useState(false);
   useFocusEffect(
     React.useCallback(() => {
       const task = InteractionManager.runAfterInteractions(() => {
@@ -126,6 +126,10 @@ export default function PlaylistScreen({route, navigation}) {
       return () => task.cancel();
     }, []),
   );
+  if (reloadPlaylist) {
+    loadPlaylist(playlistKey, setPlaylistItems);
+    setReloadPlaylist(false);
+  }
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.playlistHeader}>
@@ -145,6 +149,7 @@ export default function PlaylistScreen({route, navigation}) {
             style={{paddingRight: 0}}
             color={'grey'}
             backgroundColor="transparent"
+            onPress={() => setEditable(!editable)}
           />
           <Icon.Button
             name="swap"
@@ -162,9 +167,12 @@ export default function PlaylistScreen({route, navigation}) {
             title={item.title}
             artist={item.artist}
             videoId={item.videoId}
-            thumbnail={item.thumbnail}
+            thumbnail={`http://img.youtube.com/vi/${item.videoId}/mqdefault.jpg`}
+            editable={editable}
             resultType="song"
-            key={item.videoId}
+            key={Math.random() * 1000}
+            playlist={playlistKey}
+            setReloadPlaylist={setReloadPlaylist}
           />
         ))}
       </ScrollView>
@@ -177,6 +185,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'flex-end',
+    //backgroundColor: 'rgba(0,0,0,0.6)',
     backgroundColor: '#121212',
     color: 'white',
   },

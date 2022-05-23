@@ -13,9 +13,16 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import BottomMusicPlayer from './BottomMusicPlayer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import FullMusicPlayer from './FullMusicPlayer';
-import ytdl from 'react-native-ytdl';
+import {addToHistory} from './Helpers';
+import {getColorFromURL} from 'rn-dominant-color';
 
-async function start(setTrackTitle, setArtist, setVideoId, setIsLiked) {
+async function start(
+  setTrackTitle,
+  setArtist,
+  setVideoId,
+  setIsLiked,
+  setSpecialColor,
+) {
   const currentTrack = await TrackPlayer.getCurrentTrack();
   if (currentTrack !== null) {
     let trackIndex = await TrackPlayer.getCurrentTrack();
@@ -24,6 +31,13 @@ async function start(setTrackTitle, setArtist, setVideoId, setIsLiked) {
     setArtist(trackObject.artist);
     setVideoId(trackObject.id);
     checkLikedState(setIsLiked);
+    setSpecialColor(
+      (
+        await getColorFromURL(
+          `http://img.youtube.com/vi/${trackObject.id}/mqdefault.jpg`,
+        )
+      ).primary,
+    );
     return;
   }
   // Set up the player
@@ -51,10 +65,15 @@ function detectTarget(
   videoId,
   isLiked,
   setIsLiked,
+  specialColor,
 ) {
   if (target == 'bottom') {
     return (
-      <BottomMusicPlayer navigation={navigation} trackTitle={trackTitle} />
+      <BottomMusicPlayer
+        specialColor={specialColor}
+        navigation={navigation}
+        trackTitle={trackTitle}
+      />
     );
   } else {
     return (
@@ -64,6 +83,7 @@ function detectTarget(
         videoId={videoId}
         isLiked={isLiked}
         setIsLiked={setIsLiked}
+        specialColor={specialColor}
       />
     );
   }
@@ -88,6 +108,7 @@ export default function GlobalMusicPlayer({navigation, target}) {
   const [artist, setArtist] = useState('none');
   const [videoId, setVideoId] = useState('none');
   const [isLiked, setIsLiked] = useState(false);
+  const [specialColor, setSpecialColor] = useState('none');
   useTrackPlayerEvents([Event.PlaybackTrackChanged], async event => {
     if (
       event.type === Event.PlaybackTrackChanged &&
@@ -99,6 +120,11 @@ export default function GlobalMusicPlayer({navigation, target}) {
       setArtist(artist);
       setVideoId(id);
       checkLikedState(setIsLiked);
+      addToHistory({title, videoId: id, artist});
+      setSpecialColor(
+        (await getColorFromURL(`http://img.youtube.com/vi/${id}/mqdefault.jpg`))
+          .primary,
+      );
     }
   });
   //useTrackPlayerEvents([Event.PlaybackError], async event => {
@@ -125,7 +151,7 @@ export default function GlobalMusicPlayer({navigation, target}) {
   //  await TrackPlayer.play();
   //});
   useEffect(() => {
-    start(setTrackTitle, setArtist, setVideoId, setIsLiked);
+    start(setTrackTitle, setArtist, setVideoId, setIsLiked, setSpecialColor);
   }, []);
   return (
     <View style={{flex: target != 'bottom' ? 1 : 0}}>
@@ -137,6 +163,7 @@ export default function GlobalMusicPlayer({navigation, target}) {
         videoId,
         isLiked,
         setIsLiked,
+        specialColor,
       )}
     </View>
   );

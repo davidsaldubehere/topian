@@ -29,7 +29,6 @@ import GlobalMusicPlayer from './GlobalMusicPlayer';
 import SearchDropdown from './SearchDropdown';
 
 const SearchScreen = ({navigation, trackTitle, setTrackTitle}) => {
-  const playbackState = usePlaybackState();
   const [showFilterDropdown, setShowFilterDropdown] = useState(false);
   const [searchItems, setSearchItems] = useState([]);
   const [searchText, setSearchText] = useState('');
@@ -86,7 +85,9 @@ const SearchScreen = ({navigation, trackTitle, setTrackTitle}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#121212',
+    //backgroundColor: '#121212',
+    backgroundColor: 'rgba(0,0,0,0.7)',
+
     justifyContent: 'flex-end',
     color: 'white',
   },

@@ -25,6 +25,7 @@ import BottomMusicPlayer from './BottomMusicPlayer';
 import NavBar from './NavBar';
 import Playlists from './Playlists';
 import GlobalMusicPlayer from './GlobalMusicPlayer';
+import RecentlyPlayed from './RecentlyPlayed';
 export default function HomeScreen({navigation}) {
   const playbackState = usePlaybackState();
   return (
@@ -36,11 +37,11 @@ export default function HomeScreen({navigation}) {
           <Playlists navigation={navigation} />
         </View>
         <View style={styles.innerContainer}>
-          <Text style={styles.textBold}>Recommendations</Text>
-          <Playlists navigation={navigation} />
+          <Text style={styles.textBold}>Recently Played</Text>
+          <RecentlyPlayed />
         </View>
         <View style={styles.innerContainer}>
-          <Text style={styles.textBold}>Stuff</Text>
+          <Text style={styles.textBold}>Recommendations</Text>
           <Playlists navigation={navigation} />
         </View>
       </ScrollView>

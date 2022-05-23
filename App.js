@@ -14,6 +14,7 @@ const App = () => {
         <Stack.Navigator
           screenOptions={{
             headerShown: false,
+            transparentCard: true,
           }}>
           <Stack.Screen
             options={{presentation: 'transparentModal'}}

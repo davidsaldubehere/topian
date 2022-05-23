@@ -18,11 +18,11 @@ async function search(searchText, setSearchItems, filter, setIsLoading) {
 
   let response = await fetch(`${url}/search${filter}/${searchText}`);
   let json = await response.json();
-  let titles = json.titles;
-  let artists = json.artists;
-  let videoId = json.videoIds;
-  let thumbnails = json.thumbnails;
-  let resultType = json.resultType;
+  titles = json.titles;
+  artists = json.artists;
+  videoId = json.videoIds;
+  thumbnails = json.thumbnails;
+  resultType = json.resultType;
   let allSearchObj = [];
   for (let i = 0; i < titles.length; i++) {
     allSearchObj.push({
@@ -92,6 +92,8 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'column',
     justifyContent: 'center',
+    marginBottom: 10,
+    borderRadius: 10,
   },
   filterText: {
     margin: 2,

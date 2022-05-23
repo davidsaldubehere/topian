@@ -8,6 +8,7 @@ import {
   SafeAreaView,
   ScrollView,
 } from 'react-native';
+import {useRoute} from '@react-navigation/native';
 import TrackPlayer, {
   State,
   usePlaybackState,
@@ -33,6 +34,8 @@ async function checkLikesExist(navigation) {
   }
 }
 export default function NavBar({navigation}) {
+  const route = useRoute();
+
   return (
     <View style={styles.nav}>
       <View style={styles.navList}>
@@ -44,7 +47,9 @@ export default function NavBar({navigation}) {
             size={25}
             onPress={() => navigation.navigate('Search')}
           />
-          <Text style={styles.navText}>Search</Text>
+          <Text style={{color: route.name == 'Search' ? 'white' : 'grey'}}>
+            Search
+          </Text>
         </View>
 
         <View style={styles.navItem}>
@@ -55,17 +60,19 @@ export default function NavBar({navigation}) {
             size={25}
             onPress={() => navigation.navigate('Home')}
           />
-          <Text style={styles.navText}>Home</Text>
+          <Text style={{color: route.name == 'Home' ? 'white' : 'grey'}}>
+            Home
+          </Text>
         </View>
         <View style={styles.navItem}>
           <Icon.Button
-            name="heart"
+            name="hearto"
             style={{paddingRight: 0}}
             backgroundColor="transparent"
             size={25}
             onPress={() => checkLikesExist(navigation)}
           />
-          <Text style={styles.navText}>Likes</Text>
+          <Text style={{color: 'grey'}}>Likes</Text>
         </View>
       </View>
     </View>
@@ -81,6 +88,7 @@ const styles = StyleSheet.create({
     borderBottomEndRadius: 15,
     borderBottomStartRadius: 15,
     backgroundColor: '#272727',
+    fontFamily: 'Product Sans Regular',
   },
   navList: {
     width: '60%',
@@ -90,9 +98,5 @@ const styles = StyleSheet.create({
   navItem: {
     margin: 10,
     alignItems: 'center',
-  },
-  navText: {
-    color: 'white',
-    fontFamily: 'Product Sans Regular',
   },
 });

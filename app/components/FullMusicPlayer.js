@@ -25,6 +25,8 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import iconButton from 'react-native-vector-icons/dist/lib/icon-button';
 import PlaylistModal from './PlaylistModal';
+import {getColorFromURL} from 'rn-dominant-color';
+
 async function toggle() {
   const state = await TrackPlayer.getState();
 
@@ -79,11 +81,11 @@ export default function FullMusicPlayer({
   videoId,
   isLiked,
   setIsLiked,
+  specialColor,
 }) {
   const playbackState = usePlaybackState();
   const progress = useProgress();
   //to do: fix some thumbnails not having a max res thumbnail
-
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.musicInfo}>
@@ -114,10 +116,10 @@ export default function FullMusicPlayer({
           minimumValue={0}
           maximumValue={progress.duration}
           thumbTintColor={
-            playbackState === State.Playing ? '#A85CF9' : '#047AFF'
+            playbackState === State.Playing ? specialColor : '#047AFF'
           }
           minimumTrackTintColor={
-            playbackState === State.Playing ? '#A85CF9' : '#047AFF'
+            playbackState === State.Playing ? specialColor : '#047AFF'
           }
           maximumTrackTintColor="#FFFFFF"
           onSlidingComplete={async value => {
