@@ -116,10 +116,10 @@ export default function FullMusicPlayer({
           minimumValue={0}
           maximumValue={progress.duration}
           thumbTintColor={
-            playbackState === State.Playing ? specialColor : '#047AFF'
+            playbackState === State.Playing ? specialColor.primary : '#047AFF'
           }
           minimumTrackTintColor={
-            playbackState === State.Playing ? specialColor : '#047AFF'
+            playbackState === State.Playing ? specialColor.primary : '#047AFF'
           }
           maximumTrackTintColor="#FFFFFF"
           onSlidingComplete={async value => {

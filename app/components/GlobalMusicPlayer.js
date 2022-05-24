@@ -32,11 +32,9 @@ async function start(
     setVideoId(trackObject.id);
     checkLikedState(setIsLiked);
     setSpecialColor(
-      (
-        await getColorFromURL(
-          `http://img.youtube.com/vi/${trackObject.id}/mqdefault.jpg`,
-        )
-      ).primary,
+      await getColorFromURL(
+        `http://img.youtube.com/vi/${trackObject.id}/mqdefault.jpg`,
+      ),
     );
     return;
   }
@@ -122,8 +120,7 @@ export default function GlobalMusicPlayer({navigation, target}) {
       checkLikedState(setIsLiked);
       addToHistory({title, videoId: id, artist});
       setSpecialColor(
-        (await getColorFromURL(`http://img.youtube.com/vi/${id}/mqdefault.jpg`))
-          .primary,
+        await getColorFromURL(`http://img.youtube.com/vi/${id}/mqdefault.jpg`),
       );
     }
   });
