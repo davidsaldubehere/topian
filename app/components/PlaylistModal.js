@@ -24,6 +24,7 @@ import TrackPlayer, {
 import Icon from 'react-native-vector-icons/AntDesign';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import iconButton from 'react-native-vector-icons/dist/lib/icon-button';
+import {getPlaylists} from './Helpers';
 async function toggle() {
   const state = await TrackPlayer.getState();
 
@@ -59,10 +60,6 @@ async function addToPlaylist(playlist, object) {
     await AsyncStorage.setItem(playlist, JSON.stringify(playlistArray));
     console.log(playlistArray);
   }
-}
-async function getPlaylists(setPlaylists) {
-  let keys = await AsyncStorage.getAllKeys();
-  setPlaylists(keys);
 }
 export default function PlaylistModal({size, object}) {
   const [playlists, setPlaylists] = useState([]);

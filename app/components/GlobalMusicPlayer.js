@@ -15,7 +15,23 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import FullMusicPlayer from './FullMusicPlayer';
 import {addToHistory} from './Helpers';
 import {getColorFromURL} from 'rn-dominant-color';
-
+function colorLuminance(hex, lum) {
+  // Validate hex string
+  hex = String(hex).replace(/[^0-9a-f]/gi, '');
+  if (hex.length < 6) {
+    hex = hex.replace(/(.)/g, '$1$1');
+  }
+  lum = lum || 0;
+  // Convert to decimal and change luminosity
+  var rgb = '#',
+    c;
+  for (var i = 0; i < 3; ++i) {
+    c = parseInt(hex.substr(i * 2, 2), 16);
+    c = Math.round(Math.min(Math.max(0, c + c * lum), 255)).toString(16);
+    rgb += ('00' + c).substr(c.length);
+  }
+  return rgb;
+}
 async function start(
   setTrackTitle,
   setArtist,
@@ -31,11 +47,10 @@ async function start(
     setArtist(trackObject.artist);
     setVideoId(trackObject.id);
     checkLikedState(setIsLiked);
-    setSpecialColor(
-      await getColorFromURL(
-        `http://img.youtube.com/vi/${trackObject.id}/mqdefault.jpg`,
-      ),
+    let specialColorTemp = await getColorFromURL(
+      `http://img.youtube.com/vi/${trackObject.id}/mqdefault.jpg`,
     );
+    setSpecialColor(colorLuminance(specialColorTemp.primary, 0.5));
     return;
   }
   // Set up the player
@@ -119,9 +134,10 @@ export default function GlobalMusicPlayer({navigation, target}) {
       setVideoId(id);
       checkLikedState(setIsLiked);
       addToHistory({title, videoId: id, artist});
-      setSpecialColor(
-        await getColorFromURL(`http://img.youtube.com/vi/${id}/mqdefault.jpg`),
+      let specialColorTemp = await getColorFromURL(
+        `http://img.youtube.com/vi/${id}/mqdefault.jpg`,
       );
+      setSpecialColor(colorLuminance(specialColorTemp.primary, 0.5));
     }
   });
   //useTrackPlayerEvents([Event.PlaybackError], async event => {

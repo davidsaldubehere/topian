@@ -25,10 +25,7 @@ import SearchItem from './SearchItem';
 import SearchList from './SearchList';
 import BottomMusicPlayer from './BottomMusicPlayer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-async function getPlaylists(setPlaylists) {
-  let keys = await AsyncStorage.getAllKeys();
-  setPlaylists(keys);
-}
+import {getPlaylists} from './Helpers';
 async function createPlaylist(newPlaylistName, setPlaylists) {
   await AsyncStorage.setItem(newPlaylistName, JSON.stringify([]));
   getPlaylists(setPlaylists);

@@ -41,6 +41,8 @@ const SearchItem = ({
   editable,
   playlist,
   setReloadPlaylist,
+  tracks,
+  navigation,
 }) => {
   const [queueModalVisible, setQueueModalVisible] = useState(false);
   return (
@@ -49,7 +51,18 @@ const SearchItem = ({
       onLongPress={() => {
         setQueueModalVisible(!queueModalVisible);
       }}
-      onPress={() => addSongToQueue(artist, title, videoId, thumbnail, true)}>
+      onPress={() =>
+        addSongToQueue(
+          artist,
+          title,
+          videoId,
+          thumbnail,
+          resultType,
+          true,
+          tracks,
+          navigation,
+        )
+      }>
       <View style={styles.searchItem}>
         <View style={styles.infoContainer}>
           <Text style={styles.textBold}>Title: {title}</Text>
@@ -68,7 +81,14 @@ const SearchItem = ({
               <Text style={styles.modalText}>Select an action</Text>
               <TouchableNativeFeedback
                 onPress={() => {
-                  addSongToQueue(artist, title, videoId, thumbnail, false);
+                  addSongToQueue(
+                    artist,
+                    title,
+                    videoId,
+                    thumbnail,
+                    resultType,
+                    false,
+                  );
                   setQueueModalVisible(!queueModalVisible);
                 }}>
                 <Text style={styles.modalText}>Add To Queue</Text>

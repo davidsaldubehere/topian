@@ -32,7 +32,7 @@ export default function BottomMusicPlayer({
         style={{
           ...styles.musicControls,
           borderTopColor:
-            playbackState === State.Playing ? specialColor.primary : '#047AFF',
+            playbackState === State.Playing ? specialColor : '#047AFF',
         }}>
         <Text
           nativeID="gay"

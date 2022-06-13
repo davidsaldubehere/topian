@@ -66,7 +66,7 @@ const SearchScreen = ({navigation, trackTitle, setTrackTitle}) => {
             showsVerticalScrollIndicator={false}
             keyboardDismissMode="on-drag"
             keyboardShouldPersistTaps="always">
-            <SearchList searchItems={searchItems} />
+            <SearchList searchItems={searchItems} navigation={navigation} />
           </ScrollView>
         </View>
         {isLoading === true && (
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
   searchList: {
     alignContent: 'center',
     width: '90%',
-    maxHeight: '65%',
+    maxHeight: '23%',
   },
 
   text: {

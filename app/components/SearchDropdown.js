@@ -18,35 +18,40 @@ async function search(searchText, setSearchItems, filter, setIsLoading) {
 
   let response = await fetch(`${url}/search${filter}/${searchText}`);
   let json = await response.json();
-  titles = json.titles;
-  artists = json.artists;
-  videoId = json.videoIds;
-  thumbnails = json.thumbnails;
-  resultType = json.resultType;
+  let titles = json.titles;
+  let artists = json.artists;
+  let thumbnails = json.thumbnails;
+  let resultType = json.resultType;
   let allSearchObj = [];
-  for (let i = 0; i < titles.length; i++) {
-    allSearchObj.push({
-      title: titles[i],
-      artist: artists[i],
-      videoId: videoId[i],
-      thumbnail: thumbnails[i],
-      resultType: resultType[i],
-      id: Math.random() * 1000,
-    });
+  if (filter == 'Albums') {
+    let tracks = json.tracks;
+    for (let i = 0; i < titles.length; i++) {
+      allSearchObj.push({
+        title: titles[i],
+        artist: artists[i],
+        thumbnail: thumbnails[i],
+        resultType: resultType[i],
+        tracks: tracks[i],
+        id: Math.random() * 1000,
+      });
+    }
+  } else {
+    let videoId = json.videoIds;
+    for (let i = 0; i < titles.length; i++) {
+      allSearchObj.push({
+        title: titles[i],
+        artist: artists[i],
+        videoId: videoId[i],
+        thumbnail: thumbnails[i],
+        resultType: resultType[i],
+        id: Math.random() * 1000,
+      });
+    }
   }
 
   setSearchItems(allSearchObj);
   await setIsLoading(false);
   console.log(allSearchObj);
-  //await setSearchItems([
-  //  ...searchItems,
-  //  {title: titles[0], artist: artists[1], id: Math.random() * 1000},
-  //  {title: titles[1], artist: artists[2], id: Math.random() * 1000},
-  //  {title: titles[2], artist: artists[2], id: Math.random() * 1000},
-  //  {title: titles[3], artist: artists[2], id: Math.random() * 1000},
-  //]);
-
-  console.log(titles[3]);
 }
 
 const SearchDropdown = ({searchText, setSearchItems, setIsLoading}) => {
@@ -79,7 +84,7 @@ const SearchDropdown = ({searchText, setSearchItems, setIsLoading}) => {
       </TouchableNativeFeedback>
       <TouchableNativeFeedback
         onPress={() => {
-          search(searchText, setSearchItems, 'Videos', setIsLoading);
+          search(searchText, setSearchItems, 'Albums', setIsLoading);
         }}>
         <Text style={styles.filterText}>Albums</Text>
       </TouchableNativeFeedback>

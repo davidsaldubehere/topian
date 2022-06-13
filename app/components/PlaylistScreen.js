@@ -29,8 +29,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import ytdl from 'react-native-ytdl';
 import GlobalMusicPlayer from './GlobalMusicPlayer';
 async function loadPlaylist(key, setPlaylistItems) {
+  console.log(key);
   let playlist = await AsyncStorage.getItem(key);
   playlist = JSON.parse(playlist);
+  console.log(playlist);
   setPlaylistItems(playlist);
   //console.log(
   //  await validateURL(

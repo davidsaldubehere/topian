@@ -68,6 +68,7 @@ export default function RecentlyPlayed() {
                 item.title,
                 item.videoId,
                 `http://img.youtube.com/vi/${item.videoId}/mqdefault.jpg`,
+                'song',
                 true,
               );
             }}>
