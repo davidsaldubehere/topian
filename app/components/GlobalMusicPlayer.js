@@ -50,7 +50,7 @@ async function start(
     let specialColorTemp = await getColorFromURL(
       `http://img.youtube.com/vi/${trackObject.id}/mqdefault.jpg`,
     );
-    setSpecialColor(colorLuminance(specialColorTemp.primary, 0.5));
+    setSpecialColor(colorLuminance(specialColorTemp.primary, 0.4));
     return;
   }
   // Set up the player
@@ -91,6 +91,7 @@ function detectTarget(
   } else {
     return (
       <FullMusicPlayer
+        navigation={navigation}
         trackTitle={trackTitle}
         artist={artist}
         videoId={videoId}
@@ -137,7 +138,7 @@ export default function GlobalMusicPlayer({navigation, target}) {
       let specialColorTemp = await getColorFromURL(
         `http://img.youtube.com/vi/${id}/mqdefault.jpg`,
       );
-      setSpecialColor(colorLuminance(specialColorTemp.primary, 0.5));
+      setSpecialColor(colorLuminance(specialColorTemp.primary, 0.4));
     }
   });
   //useTrackPlayerEvents([Event.PlaybackError], async event => {

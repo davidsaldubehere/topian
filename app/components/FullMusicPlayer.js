@@ -82,6 +82,7 @@ export default function FullMusicPlayer({
   isLiked,
   setIsLiked,
   specialColor,
+  navigation,
 }) {
   const playbackState = usePlaybackState();
   const progress = useProgress();
@@ -90,6 +91,16 @@ export default function FullMusicPlayer({
     <SafeAreaView style={styles.container}>
       <View style={styles.musicInfo}>
         <View style={styles.artworkContainer}>
+          <Icon.Button
+            name="down"
+            size={30}
+            color="white"
+            backgroundColor="transparent"
+            style={{paddingRight: 0}}
+            onPress={() => {
+              navigation.goBack();
+            }}
+          />
           <Image
             style={styles.artwork}
             source={{
@@ -215,6 +226,7 @@ const styles = StyleSheet.create({
     width: 350,
     height: 350,
     marginBottom: 60,
+    marginTop: 30,
   },
   progressContainer: {
     width: '70%',
