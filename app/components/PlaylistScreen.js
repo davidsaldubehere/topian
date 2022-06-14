@@ -9,6 +9,7 @@ import {
   ScrollView,
   TouchableNativeFeedback,
   InteractionManager,
+  Alert,
 } from 'react-native';
 import TrackPlayer, {
   State,
@@ -160,6 +161,31 @@ export default function PlaylistScreen({route, navigation}) {
             color={'grey'}
             backgroundColor="transparent"
             onPress={() => playAll(playlistKey, true)}
+          />
+          <Icon.Button
+            name="delete"
+            size={30}
+            style={{paddingRight: 0}}
+            color={'grey'}
+            backgroundColor="transparent"
+            onPress={() => {
+              Alert.alert(
+                'Delete Playlist',
+                'Are you sure you want to delete this playlist?',
+                [
+                  {
+                    text: 'Cancel',
+                    onPress: () => console.log('Cancel Pressed'),
+                    style: 'cancel',
+                  },
+                  {
+                    text: 'Yep (:',
+                    onPress: () => console.log('Delete function goes here'),
+                  },
+                ],
+                {cancelable: false},
+              );
+            }}
           />
         </View>
       </View>

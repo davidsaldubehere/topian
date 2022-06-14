@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {
   Text,
   View,
@@ -7,6 +7,7 @@ import {
   Image,
   Modal,
   Vibration,
+  Animated,
 } from 'react-native';
 import TrackPlayer, {
   State,
@@ -45,6 +46,14 @@ const SearchItem = ({
   navigation,
 }) => {
   const [queueModalVisible, setQueueModalVisible] = useState(false);
+  const fadeAnim = useRef(new Animated.Value(0)).current; // Initial value for opacity: 0
+  useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 700,
+      useNativeDriver: true, // <-- Add this
+    }).start();
+  }, [fadeAnim]);
   return (
     <TouchableNativeFeedback
       delayLongPress={1000}
@@ -63,7 +72,7 @@ const SearchItem = ({
           navigation,
         )
       }>
-      <View style={styles.searchItem}>
+      <Animated.View style={{...styles.searchItem, opacity: fadeAnim}}>
         <View style={styles.infoContainer}>
           <Text style={styles.textBold}>Title: {title}</Text>
           <Text style={styles.text}>Artist: {artist}</Text>
@@ -137,7 +146,7 @@ const SearchItem = ({
             />
           )}
         </View>
-      </View>
+      </Animated.View>
     </TouchableNativeFeedback>
   );
 };

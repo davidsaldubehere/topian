@@ -59,16 +59,25 @@ const SearchDropdown = ({searchText, setSearchItems, setIsLoading}) => {
   useEffect(() => {
     Animated.timing(fadeAnim, {
       toValue: 1,
-      duration: 500,
-      useNativeDriver: true, // <-- Add this
+      duration: 600,
+      useNativeDriver: false, // <-- Add this
     }).start();
   }, [fadeAnim]);
 
   return (
+    //create an animated view that slowly increases its height corresponding to the state fadeAnim
+
     <Animated.View // Special animatable View
       style={{
         ...styles.searchFilters,
         opacity: fadeAnim, // Bind opacity to animated value
+        //using the transform property, scale the view from a scaleY of 0 to 1
+        transform: [{scaleY: fadeAnim}],
+        //using the fadeAnim state, increase the marginBottom from 0 to 10
+        marginBottom: fadeAnim.interpolate({
+          inputRange: [0, 1],
+          outputRange: [-100, 10],
+        }),
       }}>
       <TouchableNativeFeedback
         onPress={() => {
@@ -97,7 +106,6 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'column',
     justifyContent: 'center',
-    marginBottom: 10,
     borderRadius: 10,
   },
   filterText: {
