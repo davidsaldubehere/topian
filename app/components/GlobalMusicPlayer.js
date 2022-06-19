@@ -50,7 +50,7 @@ async function start(
     let specialColorTemp = await getColorFromURL(
       `http://img.youtube.com/vi/${trackObject.id}/mqdefault.jpg`,
     );
-    setSpecialColor(colorLuminance(specialColorTemp.primary, 0.4));
+    setSpecialColor(colorLuminance(specialColorTemp.primary, 0.45));
     return;
   }
   // Set up the player

@@ -1,4 +1,4 @@
-import React, {useState, useCallback, useRef, useMemo} from 'react';
+import React, {useEffect, useCallback, useRef, useMemo} from 'react';
 import {
   StyleSheet,
   Text,
@@ -26,8 +26,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import iconButton from 'react-native-vector-icons/dist/lib/icon-button';
 import PlaylistModal from './PlaylistModal';
 import {getColorFromURL} from 'rn-dominant-color';
-import {Dimensions} from 'react-native';
-import BottomSheet, {BottomSheetScrollView} from '@gorhom/bottom-sheet';
+import BottomSheet from '@gorhom/bottom-sheet';
 async function toggle() {
   const state = await TrackPlayer.getState();
 
@@ -76,24 +75,6 @@ async function addToPlaylist(playlist, isLiked, setIsLiked) {
   }
 }
 
-async function loadSongInformation(videoId, setScrollText) {
-  let url = 'https://topian.pythonanywhere.com/getVideoData';
-  let response = await fetch(url, {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      videoId: videoId,
-    }),
-  });
-  console.log(videoId);
-  let responseJson = await response.json();
-  setScrollText(
-    `${responseJson.views} views (on youtube)\n\nPublished on ${responseJson.date}`,
-  );
-}
 export default function FullMusicPlayer({
   trackTitle,
   artist,
@@ -105,66 +86,52 @@ export default function FullMusicPlayer({
 }) {
   const playbackState = usePlaybackState();
   const progress = useProgress();
-  const bottomSheetRef = useRef(0);
-  const windowWidth = Dimensions.get('window').width;
-  const windowHeight = Dimensions.get('window').height;
+  const bottomSheetRef = useRef(null);
+
   // variables
-  const [scrollText, setScrollText] = useState('No information available');
-  const snapPoints = useMemo(() => ['20%', '90%'], []);
-  const handleSheetChanges = index => {
-    if (index == 1) {
-      loadSongInformation(videoId, setScrollText);
-    }
-  };
+  const snapPoints = useMemo(() => ['50%', '100%'], []);
+  const handleSheetChanges = useCallback(index => {
+    console.log('handleSheetChanges', index);
+  }, []);
 
   //to do: fix some thumbnails not having a max res thumbnail
-  //make the edge of the text align with the image by putting another div in there
   return (
-    <SafeAreaView style={styles.sliderSpace}>
-      <View style={styles.bottomSheetContainer}>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.musicInfo}>
         <View style={styles.artworkContainer}>
-          <View style={styles.goBack}>
-            <Icon.Button
-              name="down"
-              size={30}
-              color="white"
-              backgroundColor="transparent"
-              style={{paddingRight: 0}}
-              onPress={() => {
-                navigation.goBack();
-              }}
-            />
-          </View>
-
-          <Image
-            style={{
-              width: windowWidth - 60,
-              height: windowWidth - 60,
-              borderRadius: 10,
+          <Icon.Button
+            name="down"
+            size={30}
+            color="white"
+            backgroundColor="transparent"
+            style={{paddingRight: 0}}
+            onPress={() => {
+              navigation.goBack();
             }}
+          />
+          <Image
+            style={styles.artwork}
             source={{
               uri: `http://img.youtube.com/vi/${videoId}/maxresdefault.jpg`,
             }}
           />
-
-          <View style={styles.textContainer}>
-            <Text
-              numberOfLines={1}
-              style={styles.textBold}
-              ellipsizeMode="tail">
-              {trackTitle}
-            </Text>
-            <Text style={styles.text}>{artist}</Text>
-          </View>
         </View>
-
+        <Text
+          nativeID="gay1"
+          numberOfLines={1}
+          style={styles.textBold}
+          ellipsizeMode="tail">
+          {trackTitle}
+        </Text>
+        <Text style={styles.text}>{artist}</Text>
+      </View>
+      <View style={styles.bottomSheetContainer}>
         <BottomSheet
           ref={bottomSheetRef}
-          index={0}
+          index={1}
           handleIndicatorStyle={styles.handleIndicator}
           snapPoints={snapPoints}
           backgroundStyle={styles.bottomSheetBackground}
-          enableContentPanningGesture={false}
           onChange={handleSheetChanges}>
           <View style={styles.bottomSheet}>
             <View style={styles.sliderControls}>
@@ -207,14 +174,7 @@ export default function FullMusicPlayer({
                 name={playbackState === State.Playing ? 'pause' : 'caretright'}
                 backgroundColor="transparent"
                 size={30}
-                style={{
-                  paddingRight: 0,
-                  borderColor:
-                    playbackState === State.Playing ? specialColor : '#047AFF',
-                  borderWidth: 4,
-                  borderRadius: 20,
-                  padding: 10,
-                }}
+                style={{paddingRight: 0}}
                 onPress={() => toggle()}
               />
               <Icon.Button
@@ -233,9 +193,10 @@ export default function FullMusicPlayer({
               />
             </View>
             <View style={styles.lyricContainer}>
-              <BottomSheetScrollView>
-                <Text style={styles.lyricText}>{scrollText}</Text>
-              </BottomSheetScrollView>
+              <Text style={styles.text}>
+                lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Voluptates, quisquam.
+              </Text>
             </View>
           </View>
         </BottomSheet>
@@ -244,69 +205,55 @@ export default function FullMusicPlayer({
   );
 }
 const styles = StyleSheet.create({
-  sliderSpace: {
-    width: '100%',
-    height: '100%',
-    position: 'absolute',
-    bottom: 0,
+  container: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    backgroundColor: '#272727',
+    alignItems: 'center',
   },
-  goBack: {
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalView: {
+    position: 'absolute',
+    top: '40%',
+    backgroundColor: '#272727',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 7,
+  },
+  modalText: {
+    color: 'white',
+    fontSize: 20,
+    margin: 20,
+    fontFamily: 'Product Sans Regular',
+  },
+  button: {
+    borderRadius: 7,
+    borderColor: 'white',
     width: '100%',
-    marginLeft: 60,
+  },
+  musicInfo: {
+    textAlign: 'left',
+    width: '100%',
+    marginTop: 30,
+  },
+  sliderControls: {
+    marginBottom: 40,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   artworkContainer: {
     width: '100%',
-    flex: 1,
-    justifyContent: 'space-around',
-    maxHeight: '80%',
     alignItems: 'center',
   },
-  textContainer: {
-    width: '100%',
-    marginLeft: 60,
-  },
-  textBold: {
-    color: 'white',
-    fontWeight: 'bold',
-    fontSize: 30,
-    fontFamily: 'Product Sans Regular',
-    marginTop: 5,
-  },
-  text: {
-    color: 'white',
-    fontSize: 15,
-    fontFamily: 'Product Sans Regular',
-    marginTop: 10,
-  },
-  bottomSheetContainer: {
-    flex: 1,
-    width: '100%',
-    backgroundColor: '#272727',
-  },
-  bottomSheet: {
-    flex: 1,
-    backgroundColor: '#121212',
-
-    alignItems: 'center',
-  },
-  bottomSheetBackground: {
-    backgroundColor: '#121212',
-  },
-  handleIndicator: {
-    backgroundColor: 'white',
-  },
-  musicControls: {
-    width: '100%',
-    position: 'relative',
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-  },
-  sliderControls: {
+  artwork: {
+    width: 350,
+    height: 350,
+    marginBottom: 60,
     marginTop: 20,
-    marginBottom: 20,
-    flexDirection: 'row',
-    alignItems: 'center',
   },
   progressContainer: {
     width: '70%',
@@ -316,16 +263,45 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: 'grey',
   },
-  lyricContainer: {
-    marginTop: 70,
-  },
-  lyricText: {
+  textBold: {
     color: 'white',
+    marginLeft: 30,
+    fontWeight: 'bold',
+    fontSize: 30,
     fontFamily: 'Product Sans Regular',
+  },
+  text: {
+    color: 'white',
+    margin: 30,
+    fontSize: 15,
+    fontFamily: 'Product Sans Regular',
+  },
 
-    fontSize: 20,
-    marginBottom: 30,
-    textAlign: 'left',
+  musicControls: {
     width: '100%',
+    position: 'relative',
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+  },
+  bottomSheetContainer: {
+    flex: 1,
+    padding: 24,
+    backgroundColor: '#272727',
+    width: '100%',
+  },
+  bottomSheet: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  bottomSheetBackground: {
+    backgroundColor: '#121212',
+  },
+  handleIndicator: {
+    backgroundColor: 'white',
+  },
+  lyricContainer: {
+    width: '100%',
+    height: '100%',
   },
 });
