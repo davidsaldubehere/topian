@@ -138,8 +138,8 @@ export default function FullMusicPlayer({
 
           <Image
             style={{
-              width: windowWidth - 60,
-              height: windowWidth - 60,
+              width: windowWidth - 40,
+              height: windowWidth - 40,
               borderRadius: 10,
             }}
             source={{
@@ -164,7 +164,8 @@ export default function FullMusicPlayer({
           handleIndicatorStyle={styles.handleIndicator}
           snapPoints={snapPoints}
           backgroundStyle={styles.bottomSheetBackground}
-          enableContentPanningGesture={false}
+          activeOffsetY={[-1, 1]}
+          failOffsetX={[-5, 5]}
           onChange={handleSheetChanges}>
           <View style={styles.bottomSheet}>
             <View style={styles.sliderControls}>
@@ -252,7 +253,7 @@ const styles = StyleSheet.create({
   },
   goBack: {
     width: '100%',
-    marginLeft: 60,
+    marginLeft: 40,
   },
   artworkContainer: {
     width: '100%',
@@ -263,7 +264,7 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     width: '100%',
-    marginLeft: 60,
+    marginLeft: 40,
   },
   textBold: {
     color: 'white',
