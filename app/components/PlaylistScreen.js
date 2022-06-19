@@ -41,6 +41,10 @@ async function loadPlaylist(key, setPlaylistItems) {
   //  ),
   //);
 }
+async function removePlaylist(key, navigation) {
+  await AsyncStorage.removeItem(key);
+  await navigation.navigate('Home', {shouldForceReloadPlaylists: true});
+}
 function shuffle(array) {
   let currentIndex = array.length,
     randomIndex;
@@ -180,7 +184,7 @@ export default function PlaylistScreen({route, navigation}) {
                   },
                   {
                     text: 'Yep (:',
-                    onPress: () => console.log('Delete function goes here'),
+                    onPress: () => removePlaylist(playlistKey, navigation),
                   },
                 ],
                 {cancelable: false},

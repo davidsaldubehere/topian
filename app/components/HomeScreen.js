@@ -26,8 +26,12 @@ import NavBar from './NavBar';
 import Playlists from './Playlists';
 import GlobalMusicPlayer from './GlobalMusicPlayer';
 import RecentlyPlayed from './RecentlyPlayed';
-export default function HomeScreen({navigation}) {
-  const playbackState = usePlaybackState();
+export default function HomeScreen({navigation, route}) {
+  if (route.params != undefined) {
+    const shouldForceReloadPlaylists = route.params;
+  } else {
+    const shouldForceReloadPlaylists = false;
+  }
   return (
     <SafeAreaView style={styles.container}>
       <NavBar navigation={navigation} />

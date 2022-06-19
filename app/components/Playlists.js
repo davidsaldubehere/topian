@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import {useFocusEffect} from '@react-navigation/native';
 import {
   StyleSheet,
   Text,
@@ -9,6 +10,7 @@ import {
   ScrollView,
   TouchableNativeFeedback,
   Modal,
+  InteractionManager,
 } from 'react-native';
 import TrackPlayer, {
   State,
@@ -34,9 +36,15 @@ export default function Playlists({navigation}) {
   const [playlists, setPlaylists] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [newPlaylistName, setNewPlaylistName] = useState('');
-  useEffect(() => {
-    getPlaylists(setPlaylists);
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      const task = InteractionManager.runAfterInteractions(() => {
+        getPlaylists(setPlaylists);
+      });
+
+      return () => task.cancel();
+    }, []),
+  );
   return (
     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
       <Modal
@@ -62,6 +70,7 @@ export default function Playlists({navigation}) {
                 name="plus"
                 size={30}
                 backgroundColor="transparent"
+                style={{paddingRight: 0}}
                 onPress={() => {
                   createPlaylist(newPlaylistName, setPlaylists);
                 }}
