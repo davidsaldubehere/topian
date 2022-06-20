@@ -29,6 +29,7 @@ import BottomMusicPlayer from './BottomMusicPlayer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ytdl from 'react-native-ytdl';
 import GlobalMusicPlayer from './GlobalMusicPlayer';
+import {validateURL} from './Helpers';
 async function loadPlaylist(key, setPlaylistItems) {
   console.log(key);
   let playlist = await AsyncStorage.getItem(key);
@@ -64,30 +65,7 @@ function shuffle(array) {
 
   return array;
 }
-async function validateURL(url) {
-  //make sure the url does not return a 403 error
 
-  //use the headers to make a request via fetch api
-  let response = await fetch('https://topian.pythonanywhere.com/validate', {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      url: url,
-    }),
-  });
-  console.log(
-    'since react fetch wont fucking let me spoof my header im using my own server server',
-  );
-  let responseJson = await response.json();
-  console.log(responseJson);
-  if (responseJson.yeet == '403') {
-    return true;
-  }
-  return false;
-}
 async function playAll(key, shouldShuffle, startIndex) {
   let playlist = await AsyncStorage.getItem(key);
   playlist = JSON.parse(playlist);
@@ -100,14 +78,16 @@ async function playAll(key, shouldShuffle, startIndex) {
     let youtubeURL = `http://www.youtube.com/watch?v=${playlist[i].videoId}`;
     let source = await ytdl(youtubeURL, {quality: 'highestaudio'});
     //this isnt fast enough for some reason
-    if (await validateURL(source[0].url)) {
-      console.log('invalid url');
-      console.log('trying again');
-      source = await ytdl(youtubeURL, {quality: 'highestaudio'});
+    let testSource = source;
+    while (true) {
+      if (!(await validateURL(testSource[0].url))) {
+        break;
+      }
+      testSource = await ytdl(youtubeURL, {quality: 'highestaudio'});
     }
     let temp = {
       artwork: playlist[i].thumbnail,
-      url: source[0].url,
+      url: testSource[0].url,
       artist: playlist[i].artist,
       title: playlist[i].title,
       id: playlist[i].videoId,

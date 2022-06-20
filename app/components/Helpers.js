@@ -14,6 +14,30 @@ export async function addToHistory(songObj) {
     console.log('Current history array: ', historyArray);
   }
 }
+export async function validateURL(url) {
+  //make sure the url does not return a 403 error
+
+  //use the headers to make a request via fetch api
+  let response = await fetch('https://topian.pythonanywhere.com/validate', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      url: url,
+    }),
+  });
+  console.log(
+    'since react fetch wont fucking let me spoof my header im using my own server server',
+  );
+  let responseJson = await response.json();
+  console.log(responseJson);
+  if (responseJson.yeet == '403') {
+    return true;
+  }
+  return false;
+}
 export async function getHistory() {
   let historyArray = await AsyncStorage.getItem('history');
   return JSON.parse(historyArray);
@@ -60,11 +84,16 @@ export async function addSongToQueue(
       await TrackPlayer.reset();
       console.log('reset track player');
     }
-    //to do validate url before playing
-    console.log('Search Item', videoId);
+    let testSource = source;
+    while (true) {
+      if (!(await validateURL(testSource[0].url))) {
+        break;
+      }
+      testSource = await ytdl(youtubeURL, {quality: 'highestaudio'});
+    }
     await TrackPlayer.add({
       artwork: thumbnail,
-      url: source[0].url,
+      url: testSource[0].url,
       artist: artist,
       title: title,
       id: videoId,

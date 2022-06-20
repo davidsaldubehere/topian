@@ -138,8 +138,8 @@ export default function FullMusicPlayer({
 
           <Image
             style={{
-              width: windowWidth - 40,
-              height: windowWidth - 40,
+              width: windowWidth - 30,
+              height: windowWidth - 30,
               borderRadius: 10,
             }}
             source={{
@@ -253,7 +253,7 @@ const styles = StyleSheet.create({
   },
   goBack: {
     width: '100%',
-    marginLeft: 40,
+    marginLeft: 30,
   },
   artworkContainer: {
     width: '100%',
@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     width: '100%',
-    marginLeft: 40,
+    marginLeft: 30,
   },
   textBold: {
     color: 'white',
