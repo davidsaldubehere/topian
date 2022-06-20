@@ -11,7 +11,6 @@ export async function addToHistory(songObj) {
     let historyArray = JSON.parse(previousState);
     historyArray.push(songObj);
     await AsyncStorage.setItem('history', JSON.stringify(historyArray));
-    console.log('Current history array: ', historyArray);
   }
 }
 export async function validateURL(url) {

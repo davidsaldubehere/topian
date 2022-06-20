@@ -76,8 +76,8 @@ async function addToPlaylist(playlist, isLiked, setIsLiked) {
   }
 }
 
-async function loadSongInformation(videoId, setScrollText) {
-  let url = 'https://topian.pythonanywhere.com/getVideoData';
+async function loadSongInformation(videoId, title, artist, setScrollText) {
+  let url = 'https://topian.pythonanywhere.com/getLyrics';
   let response = await fetch(url, {
     method: 'POST',
     headers: {
@@ -86,12 +86,13 @@ async function loadSongInformation(videoId, setScrollText) {
     },
     body: JSON.stringify({
       videoId: videoId,
+      title: title,
+      artist: artist,
     }),
   });
-  console.log(videoId);
   let responseJson = await response.json();
   setScrollText(
-    `${responseJson.views} views (on youtube)\n\nPublished on ${responseJson.date}`,
+    `${responseJson.views} views (on youtube)\nPublished on ${responseJson.date}\n\n\nLyrics:\n${responseJson.lyrics}`,
   );
 }
 export default function FullMusicPlayer({
@@ -107,13 +108,12 @@ export default function FullMusicPlayer({
   const progress = useProgress();
   const bottomSheetRef = useRef(0);
   const windowWidth = Dimensions.get('window').width;
-  const windowHeight = Dimensions.get('window').height;
   // variables
   const [scrollText, setScrollText] = useState('No information available');
   const snapPoints = useMemo(() => ['20%', '90%'], []);
   const handleSheetChanges = index => {
     if (index == 1) {
-      loadSongInformation(videoId, setScrollText);
+      loadSongInformation(videoId, trackTitle, artist, setScrollText);
     }
   };
 
@@ -323,10 +323,10 @@ const styles = StyleSheet.create({
   lyricText: {
     color: 'white',
     fontFamily: 'Product Sans Regular',
-
+    lineHeight: 30,
     fontSize: 20,
     marginBottom: 30,
     textAlign: 'left',
-    width: '100%',
+    maxWidth: '95%',
   },
 });

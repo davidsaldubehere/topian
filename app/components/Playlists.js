@@ -28,9 +28,10 @@ import SearchList from './SearchList';
 import BottomMusicPlayer from './BottomMusicPlayer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {getPlaylists} from './Helpers';
-async function createPlaylist(newPlaylistName, setPlaylists) {
+async function createPlaylist(newPlaylistName, setPlaylists, setModalVisible) {
   await AsyncStorage.setItem(newPlaylistName, JSON.stringify([]));
   getPlaylists(setPlaylists);
+  setModalVisible(false);
 }
 export default function Playlists({navigation}) {
   const [playlists, setPlaylists] = useState([]);
@@ -72,7 +73,11 @@ export default function Playlists({navigation}) {
                 backgroundColor="transparent"
                 style={{paddingRight: 0}}
                 onPress={() => {
-                  createPlaylist(newPlaylistName, setPlaylists);
+                  createPlaylist(
+                    newPlaylistName,
+                    setPlaylists,
+                    setModalVisible,
+                  );
                 }}
               />
             </View>

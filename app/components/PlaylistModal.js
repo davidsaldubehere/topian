@@ -82,18 +82,20 @@ export default function PlaylistModal({size, object}) {
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Text style={styles.modalText}>Select a playlist to add to</Text>
-            {playlists.map(playlist => {
-              return (
-                <TouchableNativeFeedback
-                  key={playlist}
-                  onPress={() => {
-                    addToPlaylist(playlist, object);
-                    setModalVisible(!modalVisible);
-                  }}>
-                  <Text style={styles.modalText}>{playlist}</Text>
-                </TouchableNativeFeedback>
-              );
-            })}
+            <ScrollView>
+              {playlists.map(playlist => {
+                return (
+                  <TouchableNativeFeedback
+                    key={playlist}
+                    onPress={() => {
+                      addToPlaylist(playlist, object);
+                      setModalVisible(!modalVisible);
+                    }}>
+                    <Text style={styles.modalText}>{playlist}</Text>
+                  </TouchableNativeFeedback>
+                );
+              })}
+            </ScrollView>
             <TouchableNativeFeedback
               style={styles.button}
               onPress={() => setModalVisible(!modalVisible)}>
@@ -127,13 +129,14 @@ const styles = StyleSheet.create({
   },
   modalView: {
     position: 'absolute',
+    maxHeight: '80%',
     top: '40%',
     backgroundColor: '#212121',
     alignItems: 'center',
-    justifyContent: 'center',
     borderRadius: 7,
   },
   modalText: {
+    textAlign: 'center',
     color: 'white',
     fontSize: 20,
     margin: 20,
