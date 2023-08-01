@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 20,
     margin: 15,
-    fontFamily: 'Product Sans Regular',
+    //fontFamily: 'Product Sans Regular',
   },
   search: {
     maxWidth: '80%',
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   playlistText: {
-    fontFamily: 'Product Sans Regular',
+    //fontFamily: 'Product Sans Regular',
 
     textAlign: 'center',
     fontSize: 20,

@@ -270,13 +270,13 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     fontSize: 30,
-    fontFamily: 'Product Sans Regular',
+    //fontFamily: 'Product Sans Regular',
     marginTop: 5,
   },
   text: {
     color: 'white',
     fontSize: 15,
-    fontFamily: 'Product Sans Regular',
+    //fontFamily: 'Product Sans Regular',
     marginTop: 10,
   },
   bottomSheetContainer: {
@@ -322,7 +322,7 @@ const styles = StyleSheet.create({
   },
   lyricText: {
     color: 'white',
-    fontFamily: 'Product Sans Regular',
+    //fontFamily: 'Product Sans Regular',
     lineHeight: 30,
     fontSize: 20,
     marginBottom: 30,

@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 17,
     width: '30%',
-    fontFamily: 'Product Sans Regular',
+    //fontFamily: 'Product Sans Regular',
   },
 
   musicControls: {

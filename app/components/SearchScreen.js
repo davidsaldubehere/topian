@@ -8,6 +8,8 @@ import {
   SafeAreaView,
   ScrollView,
   TouchableNativeFeedback,
+  StatusBar,
+  Platform,
 } from 'react-native';
 import TrackPlayer, {
   State,
@@ -27,14 +29,17 @@ import NavBar from './NavBar';
 import LottieView from 'lottie-react-native';
 import GlobalMusicPlayer from './GlobalMusicPlayer';
 import SearchDropdown from './SearchDropdown';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const SearchScreen = ({navigation, trackTitle, setTrackTitle}) => {
   const [showFilterDropdown, setShowFilterDropdown] = useState(false);
   const [searchItems, setSearchItems] = useState([]);
   const [searchText, setSearchText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const insets = useSafeAreaInsets();
+  const statusBarHeight = insets.top;
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={{...styles.container, marginTop: statusBarHeight}}>
       <View style={styles.top}>
         <NavBar navigation={navigation} />
         <View style={styles.search}>
@@ -103,7 +108,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 17,
     maxWidth: '40%',
-    fontFamily: 'Product Sans Regular',
+    //fontFamily: 'Product Sans Regular',
   },
   top: {
     position: 'absolute',

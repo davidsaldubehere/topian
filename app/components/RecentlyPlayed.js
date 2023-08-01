@@ -109,6 +109,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     color: 'white',
     fontSize: 15,
-    fontFamily: 'Product Sans Regular',
+    //fontFamily: 'Product Sans Regular',
   },
 });

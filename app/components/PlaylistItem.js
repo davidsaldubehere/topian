@@ -78,12 +78,12 @@ const styles = StyleSheet.create({
   text: {
     color: 'white',
     marginRight: 10,
-    fontFamily: 'Product Sans Regular',
+    //fontFamily: 'Product Sans Regular',
   },
   textBold: {
     fontWeight: 'bold',
     color: 'white',
-    fontFamily: 'Product Sans Regular',
+    //fontFamily: 'Product Sans Regular',
   },
   tinyThumb: {
     position: 'relative',

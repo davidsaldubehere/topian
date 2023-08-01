@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'center',
     backgroundColor: '#212121',
-    fontFamily: 'Product Sans Regular',
+    //fontFamily: 'Product Sans Regular',
     borderRadius: 10,
   },
 });

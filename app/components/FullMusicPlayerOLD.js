@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 20,
     margin: 20,
-    fontFamily: 'Product Sans Regular',
+    //fontFamily: 'Product Sans Regular',
   },
   button: {
     borderRadius: 7,
@@ -268,13 +268,13 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     fontWeight: 'bold',
     fontSize: 30,
-    fontFamily: 'Product Sans Regular',
+    //fontFamily: 'Product Sans Regular',
   },
   text: {
     color: 'white',
     margin: 30,
     fontSize: 15,
-    fontFamily: 'Product Sans Regular',
+    //fontFamily: 'Product Sans Regular',
   },
 
   musicControls: {

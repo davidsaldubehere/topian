@@ -83,16 +83,19 @@ export async function addSongToQueue(
       await TrackPlayer.reset();
       console.log('reset track player');
     }
-    let testSource = source;
-    while (true) {
-      if (!(await validateURL(testSource[0].url))) {
-        break;
-      }
-      testSource = await ytdl(youtubeURL, {quality: 'highestaudio'});
-    }
+    //yo are we fucking stupid???
+    //all we have to do to check if the dumb thing played is to check the duration
+    //if it is 0 then it is not playing
+    //let testSource = source;
+    //while (true) {
+    //if (!(await validateURL(testSource[0].url))) {
+    //    break;
+    //  }
+    //  testSource = await ytdl(youtubeURL, {quality: 'highestaudio'});
+    //}
     await TrackPlayer.add({
       artwork: thumbnail,
-      url: testSource[0].url,
+      url: source[0].url,
       artist: artist,
       title: title,
       id: videoId,

@@ -70,10 +70,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 17,
     maxWidth: '40%',
-    fontFamily: 'Product Sans Regular',
+    //fontFamily: 'Product Sans Regular',
   },
   textBold: {
-    fontFamily: 'Product Sans Regular',
+    //fontFamily: 'Product Sans Regular',
     color: 'white',
     marginBottom: 30,
     marginTop: 30,
